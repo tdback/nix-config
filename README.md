@@ -4,7 +4,7 @@
   ZFS pool for redundancy, with a caching drive for increased read performance.
   - `hive/` - my "social" server, responsible for hosting my fediverse server
   and a few websites.
-  - `oasis/` - my SFTP and git forge server.
+  - `oasis/` - my git and SFTP server.
   - `raindog/` - my DNS server and SearXNG host. The name is inspired by one of
   my beautiful dogs, Rainey.
   - `sparrow/` - my laptop.
