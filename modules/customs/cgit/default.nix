@@ -12,11 +12,9 @@ let
         about-filter = "${cfg.package}/lib/cgit/filters/about-formatting.sh";
         source-filter = "${cfg.package}/lib/cgit/filters/syntax-highlighting.py";
         enable-git-config = 1;
-        # Disable cgit's HTTP "dumb" protocol and use git itself to provide the
-        # HTTP "smart" protocol instead.
-        enable-http-clone = 0;
+        enable-http-clone = 1;
         remove-suffix = 1;
-        clone-url = "https://${cfg.virtualHost}/$CGIT_REPO_URL.git";
+        clone-url = "https://${cfg.virtualHost}/$CGIT_REPO_URL";
         scan-path = cfg.scanPath;
       };
     in
