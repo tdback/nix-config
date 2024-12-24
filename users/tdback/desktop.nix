@@ -1,13 +1,20 @@
 { config, pkgs, ... }:
 let
-  dirs = [ "desktop" "documents" "download" "music" "pictures" "publicShare" "templates" "videos" ];
-  defined = {
-    "documents" = "${config.home.homeDirectory}/documents";
-    "download" = "${config.home.homeDirectory}/downloads";
-  };
-  userDirs =
-    builtins.map (dir: { name = dir; value = defined.${dir} or null; }) dirs
-    |> builtins.listToAttrs;
+  mkDirs = defined:
+    let
+      home = config.home.homeDirectory;
+      dirs = [ "desktop" "documents" "download" "music" "pictures" "publicShare" "templates" "videos" ];
+    in
+      builtins.listToAttrs (
+        builtins.map (dir: {
+          name = dir;
+          value =
+            if builtins.hasAttr dir defined then
+              "${home}/${defined.${dir}}"
+            else
+              null;
+        }) dirs
+      );
 in
 {
   imports = [
@@ -50,7 +57,7 @@ in
     userDirs = {
       enable = true;
       createDirectories = true;
-    } // userDirs;
+    } // (mkDirs { documents = "documents"; download = "downloads"; });
   };
 
   qt = {
