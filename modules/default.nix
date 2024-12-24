@@ -3,14 +3,14 @@ let
   genModules = { type, modules }:
     builtins.map (module: "${inputs.self}/modules/${type}/${module}") modules;
 
-  makeModules = moduleAttrList:
+  mkModules = moduleAttrList:
     builtins.concatMap (moduleAttr: genModules moduleAttr) moduleAttrList;
 in
 {
-  makeSystem = hostname: nixpkgsVersion: modules: {
+  mkSystem = hostname: nixpkgsVersion: modules: {
     ${hostname} = nixpkgsVersion.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = (makeModules modules) ++ [
+      modules = (mkModules modules) ++ [
         "${inputs.self}/hosts/${hostname}"
         "${inputs.self}/modules/users"
         inputs.home-manager.nixosModules.home-manager

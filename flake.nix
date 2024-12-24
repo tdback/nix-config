@@ -15,23 +15,23 @@
   outputs = { ... }@inputs:
     let
       helpers = import ./modules { inherit inputs; };
-      inherit (helpers) mergeSets makeSystem;
+      inherit (helpers) mergeSets mkSystem;
     in
     {
       nixosConfigurations = mergeSets [
-        (makeSystem "woodpecker" inputs.nixpkgs [
+        (mkSystem "woodpecker" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [ "common" "fstrim" "libvirtd" "nvidia" "pipewire" "security" "steam" "wireshark" "x11" ];
           }
         ])
-        (makeSystem "sparrow" inputs.nixpkgs [
+        (mkSystem "sparrow" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [ "common" "pipewire" "security" "vpn" "x11" ];
           }
         ])
-        (makeSystem "raindog" inputs.nixpkgs [
+        (mkSystem "raindog" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [ "common" "security" "upgrade" ];
@@ -39,7 +39,7 @@
           { type = "scripts"; modules = [ "motd" "pushover" ]; }
           { type = "services"; modules = [ "blocky" "searx" "ssh" ]; }
         ])
-        (makeSystem "oasis" inputs.nixpkgs [
+        (mkSystem "oasis" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [ "common" "podman" "security" "upgrade" "wireguard" "zfs" ];
@@ -50,7 +50,7 @@
             modules = [ "cgit" "proxy" "sftpgo" "ssh" ];
           }
         ])
-        (makeSystem "hive" inputs.nixpkgs [
+        (mkSystem "hive" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [ "common" "security" "upgrade" "wireguard" ];
@@ -61,7 +61,7 @@
             modules = [ "fediverse" "proxy" "ssh" "web" ];
           }
         ])
-        (makeSystem "eden" inputs.nixpkgs [
+        (mkSystem "eden" inputs.nixpkgs [
           {
             type = "containers";
             modules = [ "freshrss" "jellyfin" "pinchflat" "vaultwarden" "watchtower" ];
