@@ -2,7 +2,7 @@
 {
   services.polybar = {
     enable = true;
-    package = pkgs.polybar.override { pulseSupport = true; };
+    package = pkgs.unstable.polybar.override { pulseSupport = true; };
     script = "polybar main &";
     settings =
       let

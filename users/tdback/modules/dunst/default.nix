@@ -2,8 +2,7 @@
 {
   services.dunst = {
     enable = true;
-    package = pkgs.dunst;
-
+    package = pkgs.unstable.dunst;
     settings = {
       global = {
         width = 300;
@@ -13,14 +12,12 @@
         frame_color = "#2c363c";
         font = "Iosevka Comfy Motion Fixed 12";
       };
-
       urgency_normal = {
         background = "#37474f";
         foreground = "eceff1";
         timeout = 5;
       };
     };
-
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;

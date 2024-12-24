@@ -2,15 +2,12 @@
 {
   services.mpd = {
     enable = true;
-    package = pkgs.mpd;
-
+    package = pkgs.unstable.mpd;
     network = {
       listenAddress = "127.0.0.1";
       port = 6600;
     };
-
     musicDirectory = "~/media/music";
-
     extraConfig = ''
       log_file               "syslog"
       max_output_buffer_size "16384"

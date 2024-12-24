@@ -2,21 +2,18 @@
 {
   programs.alacritty = {
     enable = true;
-    package = pkgs.alacritty;
+    package = pkgs.unstable.alacritty;
     settings = {
       env.TERM = "xterm-256color";
       mouse.hide_when_typing = true;
       scrolling.history = 10000;
-
       window = {
         decorations = "None";
         opacity = 1.0;
         title = "Alacritty";
         padding.x = 4;
       };
-
       cursor.style.blinking = "Never";
-
       font = {
         size = 14.0;
         normal = {
@@ -36,11 +33,9 @@
           style = "Bold Italic";
         };
       };
-
       # Tomorrow Night Bright colorscheme.
       colors = {
         draw_bold_text_with_bright_colors = true;
-
         primary = {
           background = "#000000";
           foreground = "#eaeaea";

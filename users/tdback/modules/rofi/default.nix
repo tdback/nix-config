@@ -2,7 +2,7 @@
 {
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi;
+    package = pkgs.unstable.rofi;
     font = "Iosevka Comfy Motion Fixed 12";
     location = "center";
     extraConfig = {

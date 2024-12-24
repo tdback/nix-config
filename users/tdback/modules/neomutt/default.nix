@@ -2,7 +2,7 @@
 {
   programs.neomutt = {
     enable = true;
-    package = pkgs.neomutt;
+    package = pkgs.unstable.neomutt;
 
     vimKeys = true;
     sort = "reverse-date";

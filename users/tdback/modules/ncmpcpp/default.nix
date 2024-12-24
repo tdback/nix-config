@@ -2,7 +2,7 @@
 {
   programs.ncmpcpp = {
     enable = true;
-    package = pkgs.ncmpcpp.override { visualizerSupport = true; };
+    package = pkgs.unstable.ncmpcpp.override { visualizerSupport = true; };
     mpdMusicDir = "~/Media/Music";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";

@@ -5,11 +5,9 @@ in
 {
   programs.irssi = {
     enable = true;
-
     extraConfig = ''
       settings = { core = { real_name = "${user}"; }; };
     '';
-
     networks = {
       liberachat = {
         nick = "${user}";
