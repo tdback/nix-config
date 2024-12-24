@@ -2,7 +2,7 @@
 {
   programs.tmux = {
     enable = true;
-    package = pkgs.tmux;
+    package = pkgs.unstable.tmux;
     terminal = "tmux-256color";
     escapeTime = 0;
     baseIndex = 0;
@@ -16,8 +16,8 @@
       # Prevent detaching from tmux when closing a session.
       set -g detach-on-destroy off
 
-      # Kill the current session.
-      bind X kill-session
+      # Don't prompt for confirmation when killing panes.
+      bind x kill-pane
 
       # Splitting panes.
       unbind v
