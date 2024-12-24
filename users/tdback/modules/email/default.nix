@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   accounts.email = {
     maildirBasePath = "mail";
@@ -8,7 +8,7 @@
       address = "tyler@tdback.net";
       userName = "tyler@tdback.net";
       realName = "Tyler Dunneback";
-      passwordCommand = "${pkgs.age}/bin/age -d -i ~/.ssh/mail ~/.mail.age";
+      passwordCommand = "${lib.getExe pkgs.age} -d -i ~/.ssh/mail ~/.mail.age";
 
       folders = {
         inbox = "Inbox";

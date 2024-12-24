@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   xsession.windowManager.bspwm = {
     enable = true;
-    package = pkgs.bspwm;
+    package = pkgs.unstable.bspwm;
     settings = let color = "#3B4252"; in {
       window_gap = 0;
       top_padding = 0;
@@ -26,54 +26,54 @@
     };
 
     startupPrograms = [
-      "${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us"
-      "${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr"
-      "${pkgs.xorg.xset}/bin/xset r rate 350 40"
+      "${lib.getExe pkgs.xorg.setxkbmap} -layout us"
+      "${lib.getExe pkgs.xorg.xsetroot} -cursor_name left_ptr"
+      "${lib.getExe pkgs.xorg.xset} r rate 350 40"
       "~/.fehbg"
     ];
 
     extraConfig = ''
-      ${pkgs.bspwm}/bin/bspc monitor -d 1 2 3 4 5 6 7 8 9
+      ${lib.getExe' pkgs.bspwm "bspc"} monitor -d 1 2 3 4 5 6 7 8 9
     '';
   };
 
-  services.sxhkd = {
+  services.sxhkd = let bspc = lib.getExe' pkgs.bspwm "bspc"; in {
     enable = true;
-    package = pkgs.sxhkd;
+    package = pkgs.unstable.sxhkd;
     keybindings = {
       # Program hotkeys.
-      "alt + Tab" = "rofi -show window";
-      "super + r" = "rofi -show drun";
-      "super + x" = "alacritty";
-      "super + b" = "firefox";
-      "super + p" = "flameshot full -p $HOME/.local/screenshots";
-      "super + shift + p" = "flameshot gui -p $HOME/.local/screenshots";
+      "alt + Tab" = "${lib.getExe pkgs.rofi} -show window";
+      "super + r" = "${lib.getExe pkgs.rofi} -show drun";
+      "super + x" = "${lib.getExe pkgs.alacritty}";
+      "super + b" = "$BROWSER";
+      "super + p" = "${lib.getExe pkgs.flameshot} full -p $HOME/.local/screenshots";
+      "super + shift + p" = "${lib.getExe pkgs.flameshot} gui -p $HOME/.local/screenshots";
       "super + Escape" = "systemctl --user restart polybar";
-      "super + alt + {q,r}" = "bspc {quit,wm -r}";
+      "super + alt + {q,r}" = "${bspc} {quit,wm -r}";
 
       # Function hotkeys.
-      "XF86AudioPrev" = "mpc prev";
-      "XF86AudioNext" = "mpc next";
-      "XF86AudioPlay" = "mpc toggle";
-      "XF86AudioLowerVolume" = "pamixer -d 5";
-      "XF86AudioRaiseVolume" = "pamixer -i 5";
-      "XF86AudioMute" = "pamixer -t";
+      "XF86AudioPrev" = "${lib.getExe pkgs.mpc} prev";
+      "XF86AudioNext" = "${lib.getExe pkgs.mpc} next";
+      "XF86AudioPlay" = "${lib.getExe pkgs.mpc} toggle";
+      "XF86AudioLowerVolume" = "${lib.getExe pkgs.pamixer} -d 5";
+      "XF86AudioRaiseVolume" = "${lib.getExe pkgs.pamixer} -i 5";
+      "XF86AudioMute" = "${lib.getExe pkgs.pamixer} -t";
 
       # Manipulate window manager.
-      "super + q" = "bspc node -{c,k}";
-      "super + f" = "bspc node focused.tiled -t fullscreen";
-      "super + t" = "bspc node focused.fullscreen -t tiled";
-      "super + shift + f" = "bspc node focused.tiled -t floating";
-      "super + shift + t" = "bspc node focused.floating -t tiled";
-      "super + {_,shift + }{h,j,k,l}" = "bspc node -{f,s} {west,south,north,east}";
-      "super + {_,shift}c" = "bspc node -f {next,prev}.local.!hidden.window";
-      "super + bracket{left,right}" = "bspc desktop -f {prev,next}.local";
-      "super + {grave,Tab}" = "bspc {node,desktop} -f last";
-      "super + {o,i}" = "bspc wm -h off; bspc node {older,newer} -f; bspc wm -h on";
-      "super + {_,shift + }{1-9,0}" = "bspc {desktop -f, node -d} '^{1-9,10}'";
-      "super + alt + {h,j,k,l}" = "bspc node -z {left -20 0, bottom 0 20, top 0 -20, right 20 0}";
-      "super + alt + shift {h,j,k,l}" = "bspc node -z {right -20 0, top 0 20, bottom 0 -20, left 20 0}";
-      "super + {Left,Down,Up,Right}" = "bspc node -v {-20 0,0 20,0 -20,20 0}";
+      "super + q" = "${bspc} node -{c,k}";
+      "super + f" = "${bspc} node focused.tiled -t fullscreen";
+      "super + t" = "${bspc} node focused.fullscreen -t tiled";
+      "super + shift + f" = "${bspc} node focused.tiled -t floating";
+      "super + shift + t" = "${bspc} node focused.floating -t tiled";
+      "super + {_,shift + }{h,j,k,l}" = "${bspc} node -{f,s} {west,south,north,east}";
+      "super + {_,shift}c" = "${bspc} node -f {next,prev}.local.!hidden.window";
+      "super + bracket{left,right}" = "${bspc} desktop -f {prev,next}.local";
+      "super + {grave,Tab}" = "${bspc} {node,desktop} -f last";
+      "super + {o,i}" = "${bspc} wm -h off; ${bspc} node {older,newer} -f; ${bspc} wm -h on";
+      "super + {_,shift + }{1-9,0}" = "${bspc} {desktop -f, node -d} '^{1-9,10}'";
+      "super + alt + {h,j,k,l}" = "${bspc} node -z {left -20 0, bottom 0 20, top 0 -20, right 20 0}";
+      "super + alt + shift {h,j,k,l}" = "${bspc} node -z {right -20 0, top 0 20, bottom 0 -20, left 20 0}";
+      "super + {Left,Down,Up,Right}" = "${bspc} node -v {-20 0,0 20,0 -20,20 0}";
     };
   };
 
@@ -81,11 +81,11 @@
   home.file = {
     ".xinitrc".text = ''
       [ -f ~/.xprofile ] && . ~/.xprofile
-      [ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
-      exec bspwm
+      [ -f ~/.Xresources ] && ${lib.getExe pkgs.xorg.xrdb} -merge ~/.Xresources
+      exec ${lib.getExe' pkgs.bspwm "bspwm"}
     '';
     ".xprofile".text = ''
-      xrandr --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165
+      ${lib.getExe pkgs.xorg.xrandr} --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165
     '';
     ".Xresources".text = ''
       Xcursor.size: 24
