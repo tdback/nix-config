@@ -37,38 +37,38 @@ in
       enable = mkEnableOption "cgit";
       package = mkPackageOption pkgs "cgit" { };
       user = mkOption {
-        description = "User to run cgit service as";
-        type = types.str;
         default = "git";
+        type = types.str;
+        description = "User to run cgit service as.";
       };
       group = mkOption {
-        description = "Group to run cgit service as";
-        type = types.str;
         default = "git";
+        type = types.str;
+        description = "Group to run cgit service as.";
       };
       scanPath = mkOption {
-        description = "A path which will be scanned for repositories";
-        type = types.path;
         default = "/var/lib/cgit";
+        type = types.path;
+        description = "A path which will be scanned for repositories.";
       };
       virtualHost = mkOption {
-        description = "Virtual host to serve cgit on";
-        type = types.str;
         default = null;
+        type = types.str;
+        description = "Virtual host to serve cgit on.";
       };
       authorizedKeys = mkOption {
-        description = "SSH keys for authorized git users";
-        type = types.listOf types.str;
         default = [ ];
+        type = types.listOf types.str;
+        description = "SSH keys for authorized git users.";
       };
       settings = mkOption {
-        description = "Additional cgit configuration. see cgitrc(5)";
+        default = { };
         type = with types; let settingType = oneOf [ bool int str ]; in
           attrsOf (oneOf [
             settingType
             (listOf settingType)
           ]);
-        default = { };
+        description = "Additional cgit configuration. See cgitrc(5).";
       };
     };
   };
