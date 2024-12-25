@@ -7,6 +7,8 @@ let
     pkgs.writeShellScriptBin "zquota" ''
       #!/usr/bin/env bash
 
+      set -eu
+
       if [ "$#" -ne 2 ]; then
         echo "failed to provide both a dataset and quota" >&2
         exit 1
@@ -60,7 +62,7 @@ in
     environment.systemPackages = [ zquota ];
 
     systemd.services."zquota" = {
-      description = "Perform and report routine quota checks on ZFS datasets";
+      description = "Perform and report scheduled quota checks on ZFS datasets.";
       serviceConfig.Type = "oneshot";
       script = strings.concatStringsSep "\n" <| mapAttrsToList (
         dataset: quota: "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
