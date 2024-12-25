@@ -14,7 +14,7 @@ in
     ];
     volumes = [
       "${directory}/data:/data"
-      "/lagoon/media/music:/music:ro"
+      "/tank/media/music:/music:ro"
     ];
     environment = {
       ND_SCANSCHEDULE = "1h";

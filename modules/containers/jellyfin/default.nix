@@ -16,7 +16,7 @@ in
     volumes = [
       "${directory}/config:/config"
       "${directory}/cache:/cache"
-      "/lagoon/media:/media"
+      "/tank/media:/media"
     ];
   };
 

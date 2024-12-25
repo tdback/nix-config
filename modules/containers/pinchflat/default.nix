@@ -14,7 +14,7 @@ in
     ];
     volumes = [
       "/opt/pinchflat:/config"
-      "/lagoon/media/yt:/downloads"
+      "/tank/media/yt:/downloads"
     ];
     environment = {
       TZ = "America/Detroit";

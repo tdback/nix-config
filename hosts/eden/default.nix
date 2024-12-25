@@ -35,7 +35,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    zfs.extraPools = [ "lagoon" ];
+    zfs.extraPools = [ "tank" ];
   };
 
   motd = {
@@ -53,8 +53,8 @@
   services.zquota = {
     enable = true;
     quotas = {
-      "lagoon/backups" = 512;
-      "lagoon/media" = 2048;
+      "tank/backups" = 512;
+      "tank/media" = 2048;
     };
   };
 }

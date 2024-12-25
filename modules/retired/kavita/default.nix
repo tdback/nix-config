@@ -14,7 +14,7 @@ in
     ];
     volumes = [
       "/opt/kavita/config:/kavita/config"
-      "/lagoon/media/library/Books:/books"
+      "/tank/media/library/Books:/books"
     ];
     environment = {
       TZ = "America/Detroit";
