@@ -25,9 +25,9 @@ let
         exit 1
       }
 
-      USAGE=$(${getExe pkgs.bc} <<< "scale=2; $NUM / 1024^3")
+      USAGE=$(${getExe pkgs.bc} <<< "scale=2; $USED / 1024^3")
 
-      DIFF=$(${getExe pkgs.bc} <<< "scale=2; $NUM - $QUOTA")
+      DIFF=$(${getExe pkgs.bc} <<< "scale=2; $USAGE - $QUOTA")
 
       (( $(awk '{ print ($1 > $2) }' <<< "$USAGE $QUOTA") )) &&
         /run/current-system/sw/bin/pushover -t "${hostname} quota exceeded" \
