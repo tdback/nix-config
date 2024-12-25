@@ -49,4 +49,12 @@
       "zfs-zed"
     ];
   };
+
+  services.zquota = {
+    enable = true;
+    quotas = {
+      "lagoon/backups" = 512;
+      "lagoon/media" = 2048;
+    };
+  };
 }

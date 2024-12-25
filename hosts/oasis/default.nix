@@ -47,5 +47,10 @@
     ];
   };
 
+  services.zquota = {
+    enable = true;
+    quotas = { "tank/sftpgo" = 512; };
+  };
+
   services.sftpgo.dataDir = "/tank/sftpgo";
 }

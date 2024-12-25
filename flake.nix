@@ -44,7 +44,7 @@
             type = "profiles";
             modules = [ "common" "podman" "security" "upgrade" "wireguard" "zfs" ];
           }
-          { type = "scripts"; modules = [ "motd" "pushover" ]; }
+          { type = "scripts"; modules = [ "motd" "pushover" "zquota" ]; }
           {
             type = "services";
             modules = [ "cgit" "proxy" "sftpgo" "ssh" ];
@@ -70,7 +70,7 @@
             type = "profiles";
             modules = [ "common" "podman" "security" "share" "upgrade" "wireguard" "zfs" ];
           }
-          { type = "scripts"; modules = [ "motd" "pushover" ]; }
+          { type = "scripts"; modules = [ "motd" "pushover" "zquota" ]; }
           { type = "services"; modules = [ "immich" "proxy" "ssh" ]; }
         ])
       ];
