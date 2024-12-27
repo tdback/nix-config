@@ -54,7 +54,7 @@
     enable = true;
     quotas = {
       "tank/backups" = 512;
-      "tank/media" = 2048;
+      "tank/media" = 1536;
     };
   };
 }

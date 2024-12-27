@@ -5,7 +5,7 @@
     package = pkgs.immich;
     host = "localhost";
     port = 2283;
-    mediaLocation = "/tank/media/immich";
+    mediaLocation = "/tank/immich";
     environment = {
       IMMICH_LOG_LEVEL = "log";
     };
