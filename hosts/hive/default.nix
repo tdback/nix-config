@@ -34,11 +34,9 @@
     efi.canTouchEfiVariables = true;
   };
 
-  motd = {
+  programs.motd = {
+    enable = true;
     networkInterfaces = lib.lists.singleton "eno1";
-    servicesToCheck = [
-      "caddy"
-      "gotosocial"
-    ];
+    servicesToCheck = [ "caddy" "gotosocial" ];
   };
 }

@@ -38,19 +38,16 @@
     zfs.extraPools = [ "tank" ];
   };
 
-  motd = {
-    networkInterfaces = lib.lists.singleton "enp59s0";
-    servicesToCheck = [
-      "caddy"
-      "sftpgo"
-      "zfs-zed"
-    ];
-  };
-
   services.zquota = {
     enable = true;
     quotas = { "tank/sftpgo" = 512; };
   };
 
   services.sftpgo.dataDir = "/tank/sftpgo";
+
+  programs.motd = {
+    enable = true;
+    networkInterfaces = lib.lists.singleton "enp59s0";
+    servicesToCheck = [ "caddy" "sftpgo" "zfs-zed" ];
+  };
 }

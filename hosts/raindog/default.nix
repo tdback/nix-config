@@ -34,11 +34,9 @@
     efi.canTouchEfiVariables = true;
   };
 
-  motd = {
+  programs.motd = {
+    enable = true;
     networkInterfaces = lib.lists.singleton "eno1";
-    servicesToCheck = [
-      "blocky"
-      "searx"
-    ];
+    servicesToCheck = [ "blocky" "searx" ];
   };
 }

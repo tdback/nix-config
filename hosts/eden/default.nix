@@ -38,7 +38,16 @@
     zfs.extraPools = [ "tank" ];
   };
 
-  motd = {
+  services.zquota = {
+    enable = true;
+    quotas = {
+      "tank/backups" = 512;
+      "tank/media" = 1536;
+    };
+  };
+
+  programs.motd = {
+    enable = true;
     networkInterfaces = lib.lists.singleton "eno1";
     servicesToCheck = [
       "caddy"
@@ -48,13 +57,5 @@
       "redis-immich"
       "zfs-zed"
     ];
-  };
-
-  services.zquota = {
-    enable = true;
-    quotas = {
-      "tank/backups" = 512;
-      "tank/media" = 1536;
-    };
   };
 }
