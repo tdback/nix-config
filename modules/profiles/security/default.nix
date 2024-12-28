@@ -2,15 +2,9 @@
 {
   security = {
     polkit.enable = true;
-
-    sudo.enable = lib.mkDefault false;
-    doas = {
+    sudo = {
       enable = lib.mkDefault true;
-      extraRules = [{
-        groups = [ "wheel" ];
-        keepEnv = true;
-        persist = true;
-      }];
+      wheelNeedsPassword = lib.mkDefault false;
     };
   };
 }
