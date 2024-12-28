@@ -3,11 +3,7 @@
   nix = {
     settings = {
       trusted-users = [ "@wheel" "root" ];
-      experimental-features = lib.mkDefault [
-        "nix-command"
-        "flakes"
-        "pipe-operators"
-      ];
+      experimental-features = lib.mkDefault [ "nix-command" "flakes" ];
       auto-optimise-store = true;
     };
     gc = {

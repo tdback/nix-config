@@ -64,9 +64,12 @@ in
     systemd.services."zquota" = {
       description = "Perform and report scheduled quota checks on ZFS datasets.";
       serviceConfig.Type = "oneshot";
-      script = strings.concatStringsSep "\n" <| mapAttrsToList (
-        dataset: quota: "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
-      ) cfg.quotas;
+      script =
+        strings.concatStringsSep "\n" (
+          mapAttrsToList (
+            dataset: quota: "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
+          ) cfg.quotas
+        );
     };
     systemd.timers."zquota" = {
       wantedBy = [ "timers.target" ];

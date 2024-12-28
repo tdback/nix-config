@@ -22,12 +22,14 @@ let
     );
 
   mkCgitAssets = pkg: files:
-    builtins.map (f: ''
+    strings.concatStringsSep "\n" (
+      builtins.map (f: ''
       handle_path /${f} {
         root * ${pkg}/cgit/${f}
         file_server
       }
-    '') files |> strings.concatStringsSep "\n";
+      '') files
+    );
 in
 {
   disabledModules = [ "services/networking/cgit.nix" ];
