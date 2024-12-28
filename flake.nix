@@ -64,7 +64,7 @@
         (mkSystem "eden" inputs.nixpkgs [
           {
             type = "containers";
-            modules = [ "freshrss" "jellyfin" "pinchflat" "vaultwarden" "watchtower" ];
+            modules = [ "freshrss" "jellyfin" "lubelogger" "pinchflat" "vaultwarden" "watchtower" ];
           }
           {
             type = "profiles";
