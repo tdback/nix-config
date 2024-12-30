@@ -26,37 +26,37 @@
     };
 
     startupPrograms = [
-      "${lib.getExe pkgs.xorg.setxkbmap} -layout us"
-      "${lib.getExe pkgs.xorg.xsetroot} -cursor_name left_ptr"
-      "${lib.getExe pkgs.xorg.xset} r rate 350 40"
+      "${lib.getExe pkgs.unstable.xorg.setxkbmap} -layout us"
+      "${lib.getExe pkgs.unstable.xorg.xsetroot} -cursor_name left_ptr"
+      "${lib.getExe pkgs.unstable.xorg.xset} r rate 350 40"
       "~/.fehbg"
     ];
 
     extraConfig = ''
-      ${lib.getExe' pkgs.bspwm "bspc"} monitor -d 1 2 3 4 5 6 7 8 9
+      ${lib.getExe' pkgs.unstable.bspwm "bspc"} monitor -d 1 2 3 4 5 6 7 8 9
     '';
   };
 
-  services.sxhkd = let bspc = lib.getExe' pkgs.bspwm "bspc"; in {
+  services.sxhkd = let bspc = lib.getExe' pkgs.unstable.bspwm "bspc"; in {
     enable = true;
     package = pkgs.unstable.sxhkd;
     keybindings = {
       # Program hotkeys.
-      "alt + Tab" = "${lib.getExe pkgs.rofi} -show window";
-      "super + r" = "${lib.getExe pkgs.rofi} -show drun";
-      "super + x" = "${lib.getExe pkgs.alacritty}";
+      "alt + Tab" = "${lib.getExe pkgs.unstable.rofi} -show window";
+      "super + r" = "${lib.getExe pkgs.unstable.rofi} -show drun";
+      "super + x" = "${lib.getExe pkgs.unstable.alacritty}";
       "super + b" = "$BROWSER";
-      "super + p" = "${lib.getExe pkgs.flameshot} full -p $HOME/.local/screenshots";
-      "super + shift + p" = "${lib.getExe pkgs.flameshot} gui -p $HOME/.local/screenshots";
+      "super + p" = "${lib.getExe pkgs.unstable.flameshot} full -p $HOME/.local/screenshots";
+      "super + shift + p" = "${lib.getExe pkgs.unstable.flameshot} gui -p $HOME/.local/screenshots";
       "super + Escape" = "systemctl --user restart polybar";
       "super + alt + {q,r}" = "${bspc} {quit,wm -r}";
 
       # Function hotkeys.
-      "XF86AudioPrev" = "${lib.getExe pkgs.mpc} prev";
-      "XF86AudioNext" = "${lib.getExe pkgs.mpc} next";
-      "XF86AudioPlay" = "${lib.getExe pkgs.mpc} toggle";
-      "XF86AudioLowerVolume" = "${lib.getExe pkgs.pamixer} -d 5";
-      "XF86AudioRaiseVolume" = "${lib.getExe pkgs.pamixer} -i 5";
+      "XF86AudioPrev" = "${lib.getExe pkgs.unstable.mpc} prev";
+      "XF86AudioNext" = "${lib.getExe pkgs.unstable.mpc} next";
+      "XF86AudioPlay" = "${lib.getExe pkgs.unstable.mpc} toggle";
+      "XF86AudioLowerVolume" = "${lib.getExe pkgs.unstable.pamixer} -d 5";
+      "XF86AudioRaiseVolume" = "${lib.getExe pkgs.unstable.pamixer} -i 5";
       "XF86AudioMute" = "${lib.getExe pkgs.pamixer} -t";
 
       # Manipulate window manager.
@@ -81,11 +81,11 @@
   home.file = {
     ".xinitrc".text = ''
       [ -f ~/.xprofile ] && . ~/.xprofile
-      [ -f ~/.Xresources ] && ${lib.getExe pkgs.xorg.xrdb} -merge ~/.Xresources
-      exec ${lib.getExe' pkgs.bspwm "bspwm"}
+      [ -f ~/.Xresources ] && ${lib.getExe pkgs.unstable.xorg.xrdb} -merge ~/.Xresources
+      exec ${lib.getExe' pkgs.unstable.bspwm "bspwm"}
     '';
     ".xprofile".text = ''
-      ${lib.getExe pkgs.xorg.xrandr} --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165
+      ${lib.getExe pkgs.unstable.xorg.xrandr} --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165
     '';
     ".Xresources".text = ''
       Xcursor.size: 24
