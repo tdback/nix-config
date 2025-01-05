@@ -1,9 +1,7 @@
 { inputs, config, pkgs, ... }:
 let
   pushover = pkgs.writeShellScriptBin "pushover" ''
-    #!/bin/sh
-
-    die() { echo "$0: $*" >&2; exit 111; }
+    set -e
 
     APP=$(cat ${config.age.secrets.pushoverAppToken.path})
     USER=$(cat ${config.age.secrets.pushoverUserToken.path})
@@ -14,10 +12,12 @@ let
           TITLE="$OPTARG"
           ;;
         :)
-          die "missing option argument for -$OPTARG"
+          echo "missing option argument for -$OPTARG" >&2
+          exit 1
           ;;
         *)
-          die "invalid option -$OPTARG"
+          echo "invalid option -$OPTARG" >&2
+          exit 1
           ;;
       esac
     done
@@ -35,8 +35,7 @@ let
       --form-string "message=$MESSAGE" \
       https://api.pushover.net/1/messages.json
   '';
-in
-{
+in {
   age.secrets = {
     pushoverAppToken.file = "${inputs.self}/secrets/pushoverAppToken.age";
     pushoverUserToken.file = "${inputs.self}/secrets/pushoverUserToken.age";

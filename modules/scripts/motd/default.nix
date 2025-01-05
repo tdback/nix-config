@@ -4,8 +4,6 @@ let
   cfg = config.programs.motd;
 
   motd = pkgs.writeShellScriptBin "motd" ''
-    #!/usr/bin/env bash
-
     RED="\e[31m"
     GREEN="\e[32m"
     YELLOW="\e[33m"
@@ -70,8 +68,7 @@ let
     done <<< "$SERVICES"
     printf "\n"
   '';
-in
-{
+in {
   options = {
     programs.motd = {
       enable = mkEnableOption "motd";

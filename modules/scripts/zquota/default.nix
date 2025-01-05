@@ -5,9 +5,7 @@ let
 
   zquota = let hostname = config.networking.hostName; in
     pkgs.writeShellScriptBin "zquota" ''
-      #!/usr/bin/env bash
-
-      set -eu
+      set -e
 
       if [ "$#" -ne 2 ]; then
         echo "failed to provide both a dataset and quota" >&2
@@ -19,12 +17,12 @@ let
 
       if [ -n "$(echo "$QUOTA" | tr -d 0-9.)" ]; then
         echo "failed to provide a valid quota" >&2
-        exit 1
+      exit 1
       fi
 
       USED=$(${getExe pkgs.zfs} list -Hpo used "$DATASET" 2>/dev/null) || {
-        echo "failed to provide a valid dataset" >&2
-        exit 1
+      echo "failed to provide a valid dataset" >&2
+      exit 1
       }
 
       USAGE=$(${getExe pkgs.bc} <<< "scale=2; $USED / 1024^3")
@@ -32,11 +30,10 @@ let
       DIFF=$(${getExe pkgs.bc} <<< "scale=2; $USAGE - $QUOTA")
 
       (( $(awk '{ print ($1 > $2) }' <<< "$USAGE $QUOTA") )) &&
-        /run/current-system/sw/bin/pushover -t "${hostname} quota exceeded" \
-        "dataset $DATASET on ${hostname} has exceeded quota by ''${DIFF}GB"
-    '';
-in
-{
+      /run/current-system/sw/bin/pushover -t "${hostname} quota exceeded" \
+      "dataset $DATASET on ${hostname} has exceeded quota by ''${DIFF}GB"
+      '';
+in {
   options = {
     services.zquota = {
       enable = mkEnableOption "zquota";
