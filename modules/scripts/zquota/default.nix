@@ -3,7 +3,11 @@ with lib;
 let
   cfg = config.services.zquota;
 
-  zquota = let hostname = config.networking.hostName; in
+  zquota = let
+    bc = getExe pkgs.bc;
+    zfs = getExe pkgs.zfs;
+    hostname = config.networking.hostName;
+  in
     pkgs.writeShellScriptBin "zquota" ''
       set -e
 
@@ -15,24 +19,25 @@ let
       DATASET="$1"
       QUOTA="$2"
 
-      if [ -n "$(echo "$QUOTA" | tr -d 0-9.)" ]; then
+      if echo "$QUOTA" | grep -q '[^0-9.]'; then
         echo "failed to provide a valid quota" >&2
-      exit 1
+        exit 1
       fi
 
-      USED=$(${getExe pkgs.zfs} list -Hpo used "$DATASET" 2>/dev/null) || {
-      echo "failed to provide a valid dataset" >&2
-      exit 1
+      USED=$(${zfs} list -Hpo used "$DATASET" 2>/dev/null) || {
+        echo "failed to provide a valid dataset" >&2
+        exit 1
       }
 
-      USAGE=$(${getExe pkgs.bc} <<< "scale=2; $USED / 1024^3")
+      USAGE=$(${bc} <<< "scale=2; $USED / 1024^3")
 
-      DIFF=$(${getExe pkgs.bc} <<< "scale=2; $USAGE - $QUOTA")
+      DIFF=$(${bc} <<< "scale=2; $USAGE - $QUOTA")
 
-      (( $(awk '{ print ($1 > $2) }' <<< "$USAGE $QUOTA") )) &&
-      /run/current-system/sw/bin/pushover -t "${hostname} quota exceeded" \
-      "dataset $DATASET on ${hostname} has exceeded quota by ''${DIFF}GB"
-      '';
+      if [ 1 -eq $(${bc} <<< "$USAGE > $QUOTA") ]; then
+        /run/current-system/sw/bin/pushover -t "${hostname} quota exceeded" \
+          "dataset $DATASET on ${hostname} has exceeded quota by ''${DIFF}GB"
+      fi
+    '';
 in {
   options = {
     services.zquota = {
@@ -63,8 +68,8 @@ in {
       serviceConfig.Type = "oneshot";
       script =
         strings.concatStringsSep "\n" (
-          mapAttrsToList (
-            dataset: quota: "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
+          mapAttrsToList (dataset: quota:
+            "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
           ) cfg.quotas
         );
     };
