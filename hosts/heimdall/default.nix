@@ -15,14 +15,13 @@
   };
 
   networking = {
-    hostName = "eden";
-    hostId = "bd03847d"; # Required for ZFS support.
+    hostName = "heimdall";
     nameservers = [ "10.44.0.1" ];
     defaultGateway.address = "10.44.0.1";
     interfaces.eno1 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "10.44.4.101";
+        address = "10.44.4.100";
         prefixLength = 16;
       }];
     };
@@ -30,32 +29,14 @@
 
   time.timeZone = "America/Detroit";
 
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    zfs.extraPools = [ "tank" ];
-  };
-
-  services.zquota = {
-    enable = true;
-    quotas = {
-      "tank/backups" = 512;
-      "tank/media" = 1536;
-    };
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
   programs.motd = {
     enable = true;
     networkInterfaces = lib.lists.singleton "eno1";
-    servicesToCheck = [
-      "caddy"
-      "immich-machine-learning"
-      "immich-server"
-      "postgresql"
-      "redis-immich"
-      "zfs-zed"
-    ];
+    servicesToCheck = [ "blocky" "searx" ];
   };
 }

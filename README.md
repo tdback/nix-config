@@ -1,12 +1,11 @@
 # Flake Layout
 - `hosts/`
-  - `eden/` - my media server and makeshift NAS. Media is stored in a RAID-Z2
+  - `odin/` - my media server and makeshift NAS. Media is stored in a RAID-Z2
   ZFS pool for redundancy, with a caching drive for increased read performance.
-  - `hive/` - my "social" server, responsible for hosting my fediverse server
+  - `thor/` - my "social" server, responsible for hosting my fediverse server
   and a few websites.
-  - `oasis/` - my git and SFTP server.
-  - `raindog/` - my DNS server and SearXNG host. The name is inspired by one of
-  my beautiful dogs, Rainey.
+  - `frigg/` - my git and SFTP server.
+  - `heimdall/` - my DNS server and SearXNG host.
   - `sparrow/` - my laptop.
   - `woodpecker/` - my desktop.
 - `modules/`

@@ -12,67 +12,83 @@
     };
   };
 
-  outputs = { ... }@inputs:
-    let
-      helpers = import ./modules { inherit inputs; };
-      inherit (helpers) mergeSets mkSystem;
-    in
-    {
-      nixosConfigurations = mergeSets [
-        (mkSystem "woodpecker" inputs.nixpkgs [
-          {
-            type = "profiles";
-            modules = [ "common" "fstrim" "libvirtd" "nvidia" "pipewire" "security" "steam" "wireshark" "x11" ];
-          }
-        ])
-        (mkSystem "sparrow" inputs.nixpkgs [
-          {
-            type = "profiles";
-            modules = [ "common" "pipewire" "security" "vpn" "x11" ];
-          }
-        ])
-        (mkSystem "raindog" inputs.nixpkgs [
-          {
-            type = "profiles";
-            modules = [ "common" "security" "upgrade" ];
-          }
-          { type = "scripts"; modules = [ "motd" "pushover" ]; }
-          { type = "services"; modules = [ "blocky" "searx" "ssh" ]; }
-        ])
-        (mkSystem "oasis" inputs.nixpkgs [
-          {
-            type = "profiles";
-            modules = [ "common" "podman" "security" "upgrade" "wireguard" "zfs" ];
-          }
-          { type = "scripts"; modules = [ "motd" "pushover" "zquota" ]; }
-          {
-            type = "services";
-            modules = [ "cgit" "proxy" "sftpgo" "ssh" ];
-          }
-        ])
-        (mkSystem "hive" inputs.nixpkgs [
-          {
-            type = "profiles";
-            modules = [ "common" "security" "upgrade" "wireguard" ];
-          }
-          { type = "scripts"; modules = [ "motd" "pushover" ]; }
-          {
-            type = "services";
-            modules = [ "fediverse" "proxy" "ssh" "web" ];
-          }
-        ])
-        (mkSystem "eden" inputs.nixpkgs [
-          {
-            type = "containers";
-            modules = [ "freshrss" "jellyfin" "lubelogger" "pinchflat" "vaultwarden" "watchtower" ];
-          }
-          {
-            type = "profiles";
-            modules = [ "common" "podman" "security" "share" "upgrade" "wireguard" "zfs" ];
-          }
-          { type = "scripts"; modules = [ "motd" "pushover" "zquota" ]; }
-          { type = "services"; modules = [ "immich" "proxy" "ssh" ]; }
-        ])
-      ];
-    };
+  outputs = { ... } @ inputs: let
+    helpers = import ./modules { inherit inputs; };
+    inherit (helpers) mergeSets mkSystem;
+  in {
+    nixosConfigurations = mergeSets [
+      (mkSystem "woodpecker" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [ "common" "fstrim" "libvirtd" "nvidia" "pipewire" "security" "steam" "wireshark" "x11" ];
+        }
+      ])
+      (mkSystem "sparrow" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [ "common" "pipewire" "security" "vpn" "x11" ];
+        }
+      ])
+      (mkSystem "frigg" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [ "common" "podman" "security" "upgrade" "wireguard" "zfs" ];
+        }
+        {
+          type = "scripts";
+          modules = [ "motd" "pushover" "zquota" ];
+        }
+        {
+          type = "services";
+          modules = [ "cgit" "proxy" "sftpgo" "ssh" ];
+        }
+      ])
+      (mkSystem "heimdall" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [ "common" "security" "upgrade" ];
+        }
+        {
+          type = "scripts";
+          modules = [ "motd" "pushover" ];
+        }
+        {
+          type = "services";
+          modules = [ "blocky" "searx" "ssh" ];
+        }
+      ])
+      (mkSystem "odin" inputs.nixpkgs [
+        {
+          type = "containers";
+          modules = [ "freshrss" "jellyfin" "lubelogger" "pinchflat" "vaultwarden" "watchtower" ];
+        }
+        {
+          type = "profiles";
+          modules = [ "common" "podman" "security" "share" "upgrade" "wireguard" "zfs" ];
+        }
+        {
+          type = "scripts";
+          modules = [ "motd" "pushover" "zquota" ];
+        }
+        {
+          type = "services";
+          modules = [ "immich" "proxy" "ssh" ];
+        }
+      ])
+      (mkSystem "thor" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [ "common" "security" "upgrade" "wireguard" ];
+        }
+        {
+          type = "scripts";
+          modules = [ "motd" "pushover"];
+        }
+        {
+          type = "services";
+          modules = [ "fediverse" "proxy" "ssh" "web" ];
+        }
+      ])
+    ];
+  };
 }
