@@ -24,14 +24,13 @@ let
   mkCgitAssets = pkg: files:
     strings.concatStringsSep "\n" (
       builtins.map (f: ''
-      handle_path /${f} {
-        root * ${pkg}/cgit/${f}
-        file_server
-      }
+        handle_path /${f} {
+          root * ${pkg}/cgit/${f}
+          file_server
+        }
       '') files
     );
-in
-{
+in {
   disabledModules = [ "services/networking/cgit.nix" ];
 
   options = {
@@ -113,10 +112,9 @@ in
       socket = { inherit (config.services.caddy) user group; };
     };
 
-    services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig =
-      let
-        socket = config.services.fcgiwrap.instances.cgit.socket.address;
-      in ''
+    services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig = let
+      socket = config.services.fcgiwrap.instances.cgit.socket.address;
+    in ''
         encode zstd gzip
 
         reverse_proxy unix/${socket} {
@@ -126,9 +124,9 @@ in
           }
         }
 
-        ${mkCgitAssets cfg.package [
-          "cgit.css" "cgit.png" "favicon.ico" "robots.txt"
-        ]}
-      '';
+      ${mkCgitAssets cfg.package [
+        "cgit.css" "cgit.png" "favicon.ico" "robots.txt"
+      ]}
+    '';
   };
 }
