@@ -10,6 +10,10 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { ... } @ inputs: let
@@ -20,7 +24,7 @@
       (mkSystem "woodpecker" inputs.nixpkgs [
         {
           type = "profiles";
-          modules = [ "common" "fstrim" "libvirtd" "nvidia" "pipewire" "security" "steam" "wireshark" "x11" ];
+          modules = [ "common" "cosmic" "fstrim" "libvirtd" "nvidia" "pipewire" "security" "steam" "wireshark" ];
         }
       ])
       (mkSystem "sparrow" inputs.nixpkgs [
