@@ -4,7 +4,7 @@
     inputs.nixos-cosmic.nixosModules.default
   ];
 
-  # Set up binary substituter so we don't have to build everything from source.
+  # Setup binary substituter so we don't have to build everything from source.
   # If this is a first time setup, comment out the code below the nix.settings
   # attrset and run `sudo nixos-rebuild test` to update the substituters.
   nix.settings = {
