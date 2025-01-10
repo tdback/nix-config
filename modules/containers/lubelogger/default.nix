@@ -1,16 +1,16 @@
 { lib, ... }:
 let
+  inherit (lib.lists) singleton;
   directory = "/opt/lubelogger";
   port = "8889";
 in
 {
-  systemd.tmpfiles.rules =
-    builtins.map (x: "d ${x} 0755 share share - -") (lib.lists.singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") (singleton directory);
 
   virtualisation.oci-containers.containers.lubelogger = {
     image = "ghcr.io/hargata/lubelogger:latest";
     autoStart = true;
-    ports = [ "${port}:8080" ];
+    ports = singleton "${port}:8080";
     volumes = [
       "${directory}/config:/App/config"
       "${directory}/data:/App/data"

@@ -1,22 +1,18 @@
 { lib, ... }:
 let
-  directory = "/opt/vaultwarden";
+  inherit (lib.lists) singleton;
+  directory = singleton "/opt/vaultwarden";
   domain = "steel-mountain.brownbread.net";
   port = "11001";
 in
 {
-  systemd.tmpfiles.rules =
-    map (x: "d ${x} 0755 share share - -") (lib.lists.singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") (singleton directory);
 
   virtualisation.oci-containers.containers.vaultwarden = {
     image = "vaultwarden/server:latest";
     autoStart = true;
-    ports = [
-      "${port}:80"
-    ];
-    volumes = [
-      "${directory}/data:/data"
-    ];
+    ports = singleton "${port}:80";
+    volumes = singleton "${directory}/data:/data";
     environment = {
       DOMAIN = domain;
       WEBSOCKET_ENABLED = "true";

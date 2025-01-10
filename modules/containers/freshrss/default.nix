@@ -1,18 +1,16 @@
 { lib, ... }:
 let
+  inherit (lib.lists) singleton;
   directory = "/opt/freshrss";
   port = "8888";
 in
 {
-  systemd.tmpfiles.rules =
-    map (x: "d ${x} 0755 share share - -") (lib.lists.singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") (singleton directory);
 
   virtualisation.oci-containers.containers.freshrss = {
     image = "freshrss/freshrss:latest";
     autoStart = true;
-    ports = [
-      "${port}:80"
-    ];
+    ports = singleton "${port}:80";
     volumes = [
       "${directory}/data:/var/www/FreshRSS/data"
       "${directory}/extensions:/var/www/FreshRSS/extensions"
