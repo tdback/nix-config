@@ -115,14 +115,14 @@ in {
     services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig = let
       socket = config.services.fcgiwrap.instances.cgit.socket.address;
     in ''
-        encode zstd gzip
+      encode zstd gzip
 
-        reverse_proxy unix/${socket} {
-          transport fastcgi {
-            env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
-            env CGIT_CONFIG ${mkCgitrc cfg}
-          }
+      reverse_proxy unix/${socket} {
+        transport fastcgi {
+          env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
+          env CGIT_CONFIG ${mkCgitrc cfg}
         }
+      }
 
       ${mkCgitAssets cfg.package [
         "cgit.css" "cgit.png" "favicon.ico" "robots.txt"
