@@ -14,17 +14,13 @@
     ];
   };
 
-  # Use nvidia's experimental framebuffer device to remove a "phantom display"
-  # detected by `cosmic-randr list`.
-  boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
-
-  # Enable `zwlr_data_control_manager_v1` protocol in cosmic-comp to fix the
-  # clipboard manager not working properly.
-  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
-
   # Enable COSMIC!
   services.desktopManager.cosmic.enable = true;
   services.displayManager.cosmic-greeter.enable = true;
+
+  # Enable `zwlr_data_control_manager_v1` protocol in cosmic-comp in order to
+  # use the clipboard manager.
+  environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
 
   # Don't use flatpaks, which will pull in `cosmic-store`.
   services.flatpak.enable = false;
