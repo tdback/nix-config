@@ -1,7 +1,7 @@
 { lib, ... }:
 let
   inherit (lib.lists) singleton;
-  directory = singleton "/opt/vaultwarden";
+  directory = "/opt/vaultwarden";
   domain = "steel-mountain.brownbread.net";
   port = "11001";
 in
