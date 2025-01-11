@@ -18,36 +18,23 @@ let
 in
 {
   imports = [
-    #./modules/alacritty
-    #./modules/dunst
     ./modules/email
     ./modules/firefox
     ./modules/irc
     ./modules/mpd
     ./modules/ncmpcpp
     ./modules/neomutt
-    #./modules/polybar
-    #./modules/rofi
     ./modules/tmux
-    #./modules/x11
   ];
 
   home.packages = with pkgs.unstable; [
     clang
-    #feh
-    (ffmpeg.override { withXcb = true; })
-    #flameshot
     gimp
     gitu
-    #mpc-cli
     mpv
-    #pavucontrol
-    #pamixer
     pciutils
     signal-desktop
-    #sxiv
     tidal-dl
-    #xclip
     yt-dlp
     zathura
   ];

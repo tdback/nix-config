@@ -30,7 +30,7 @@
       (mkSystem "sparrow" inputs.nixpkgs [
         {
           type = "profiles";
-          modules = [ "common" "pipewire" "security" "vpn" "x11" ];
+          modules = [ "common" "cosmic" "pipewire" "security" "vpn" ];
         }
       ])
       (mkSystem "frigg" inputs.nixpkgs [
