@@ -58,7 +58,7 @@
         }
         {
           type = "services";
-          modules = [ "blocky" "searx" "ssh" ];
+          modules = [ "dns" "searx" "ssh" ];
         }
       ])
       (mkSystem "odin" inputs.nixpkgs [
