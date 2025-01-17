@@ -1,4 +1,10 @@
-{ config, lib, pkgs, headless ? true, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  headless ? true,
+  ...
+}:
 {
   # Hacky way to import our desktop modules if we aren't a headless system.
   imports = (lib.optional (!headless) ./desktop.nix) ++ [

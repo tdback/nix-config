@@ -1,13 +1,19 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.zquota;
 
-  zquota = let
-    bc = getExe pkgs.bc;
-    zfs = getExe pkgs.zfs;
-    hostname = config.networking.hostName;
-  in
+  zquota =
+    let
+      bc = getExe pkgs.bc;
+      zfs = getExe pkgs.zfs;
+      hostname = config.networking.hostName;
+    in
     pkgs.writeShellScriptBin "zquota" ''
       set -e
 
@@ -38,7 +44,8 @@ let
           "dataset $DATASET on ${hostname} has exceeded quota by ''${DIFF}GB"
       fi
     '';
-in {
+in
+{
   options = {
     services.zquota = {
       enable = mkEnableOption "zquota";
@@ -66,12 +73,11 @@ in {
     systemd.services."zquota" = {
       description = "Perform and report scheduled quota checks on ZFS datasets.";
       serviceConfig.Type = "oneshot";
-      script =
-        strings.concatStringsSep "\n" (
-          mapAttrsToList (dataset: quota:
-            "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
-          ) cfg.quotas
-        );
+      script = strings.concatStringsSep "\n" (
+        mapAttrsToList (
+          dataset: quota: "/run/current-system/sw/bin/zquota ${dataset} ${builtins.toString quota}"
+        ) cfg.quotas
+      );
     };
     systemd.timers."zquota" = {
       wantedBy = [ "timers.target" ];

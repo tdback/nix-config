@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.programs.motd;
@@ -35,9 +40,12 @@ let
     printf "\n"
     printf "''${BOLD}Good $TIME $(whoami), welcome to $(hostname)!$ENDCOLOR\n"
     printf "\n"
-    ${strings.concatStrings (lists.forEach cfg.networkInterfaces (
-      int: "printf \"$BOLD  * %-20s$ENDCOLOR %s\\n\" \"IPv4 ${int}\" \"$(ip -4 addr show ${int} | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')\"\n"
-    ))}
+    ${strings.concatStrings (
+      lists.forEach cfg.networkInterfaces (
+        int:
+        "printf \"$BOLD  * %-20s$ENDCOLOR %s\\n\" \"IPv4 ${int}\" \"$(ip -4 addr show ${int} | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')\"\n"
+      )
+    )}
     printf "$BOLD  * %-20s$ENDCOLOR %s\n" "Release" "$(awk -F= '/PRETTY_NAME/ { print $2 }' /etc/os-release | tr -d '"')"
     printf "$BOLD  * %-20s$ENDCOLOR %s\n" "Kernel" "$(uname -rs)"
     printf "\n"
@@ -68,7 +76,8 @@ let
     done <<< "$SERVICES"
     printf "\n"
   '';
-in {
+in
+{
   options = {
     programs.motd = {
       enable = mkEnableOption "motd";

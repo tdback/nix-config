@@ -17,7 +17,8 @@
     let
       hostname = config.networking.hostName;
       dependencies = [ "network-online.target" ];
-    in {
+    in
+    {
       wantedBy = [ "multi-user.target" ];
       wants = dependencies;
       after = dependencies;

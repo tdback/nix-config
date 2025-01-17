@@ -11,15 +11,12 @@
     extraConfig = ''
       log_file               "syslog"
       max_output_buffer_size "16384"
-
       restore_paused         "yes"
       auto_update            "yes"
-
       audio_output {
           type        "pulse"
           name        "pulseaudio"
       }
-
       audio_output {
           type        "fifo"
           name        "Visualizer feed"

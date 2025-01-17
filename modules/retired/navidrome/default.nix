@@ -1,10 +1,9 @@
-{ lib, ... }:
+{ ... }:
 let
   directory = "/opt/navidrome";
 in
 {
-  systemd.tmpfiles.rules =
-    map (x: "d ${x} 0755 share share - -") (lib.lists.singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") [ directory ];
 
   virtualisation.oci-containers.containers.navidrome = {
     image = "deluan/navidrome:latest";

@@ -22,7 +22,7 @@
           bg = mkLiteral "#050505";
           bg-alt = mkLiteral "#191919";
           fg = mkLiteral "#FFFFFF";
-          fg-alt = mkLiteral"#787c99";
+          fg-alt = mkLiteral "#787c99";
           background-color = mkLiteral "@bg";
           border = 0;
           margin = 0;
@@ -61,7 +61,10 @@
         };
 
         "inputbar" = {
-          children = map mkLiteral [ "prompt" "entry" ];
+          children = map mkLiteral [
+            "prompt"
+            "entry"
+          ];
         };
 
         "listview" = {

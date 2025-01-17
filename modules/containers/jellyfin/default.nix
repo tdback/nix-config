@@ -1,16 +1,15 @@
-{ lib, ... }:
+{ ... }:
 let
-  inherit (lib.lists) singleton;
   directory = "/opt/jellyfin";
 in
 {
-  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") (singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") [ directory ];
 
   virtualisation.oci-containers.containers.jellyfin = {
     image = "jellyfin/jellyfin:latest";
     autoStart = true;
     user = "994:994";
-    ports = singleton "8096:8096/tcp";
+    ports = [ "8096:8096/tcp" ];
     volumes = [
       "${directory}/config:/config"
       "${directory}/cache:/cache"

@@ -2,7 +2,6 @@
 {
   accounts.email = {
     maildirBasePath = "mail";
-
     accounts.fastmail = {
       primary = true;
       address = "tyler@tdback.net";

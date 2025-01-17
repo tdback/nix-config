@@ -1,10 +1,14 @@
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 let
   scanPath = "/tank/git";
   domain = "git.tdback.net";
 in
 {
-  imports = lib.lists.singleton "${inputs.self}/modules/customs/cgit";
+  imports = [ "${inputs.self}/modules/customs/cgit" ];
 
   services.cgit = {
     enable = true;

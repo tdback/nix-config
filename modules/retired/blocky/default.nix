@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   services.blocky = {
     enable = true;
@@ -11,10 +11,10 @@
           "149.112.112.112"
         ];
       };
-      bootstrapDns = [{
+      bootstrapDns = lib.singleton {
         upstream = "https://dns.quad9.net/dns-query";
         ips = [ "9.9.9.9" ];
-      }];
+      };
       ports = {
         dns = 53;
         tls = 853;
@@ -87,7 +87,11 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ 53 443 853 ];
+    allowedTCPPorts = [
+      53
+      443
+      853
+    ];
     allowedUDPPorts = [ 53 ];
   };
 }

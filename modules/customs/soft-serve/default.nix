@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.soft-serve;
@@ -39,10 +44,10 @@ in
 
     systemd.services.soft-serve = {
       description = "Soft Serve git server";
-      documentation = lists.singleton docUrl;
-      requires = lists.singleton "network-online.target";
-      after = lists.singleton "network-online.target";
-      wantedBy = lists.singleton "multi-user.target";
+      documentation = [ docUrl ];
+      requires = [ "network-online.target" ];
+      after = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
       environment.SOFT_SERVE_DATA_PATH = dataDir;
       serviceConfig = {
         Type = "simple";

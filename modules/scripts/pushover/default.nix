@@ -1,4 +1,9 @@
-{ inputs, config, pkgs, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}:
 let
   pushover = pkgs.writeShellScriptBin "pushover" ''
     set -e
@@ -35,7 +40,8 @@ let
       --form-string "message=$MESSAGE" \
       https://api.pushover.net/1/messages.json
   '';
-in {
+in
+{
   age.secrets = {
     pushoverAppToken.file = "${inputs.self}/secrets/pushoverAppToken.age";
     pushoverUserToken.file = "${inputs.self}/secrets/pushoverUserToken.age";

@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   lock-false = {
     Value = false;
@@ -26,7 +31,7 @@ in
       SearchBar = "unified";
       OfferToSaveLogins = false;
       EnableTrackingProtection = {
-        Value= true;
+        Value = true;
         Locked = true;
         Cryptomining = true;
         Fingerprinting = true;
@@ -34,7 +39,10 @@ in
 
       # about:config
       Preferences = {
-        "browser.contentblocking.category" = { Value = "strict"; Status = "locked"; };
+        "browser.contentblocking.category" = {
+          Value = "strict";
+          Status = "locked";
+        };
         "extensions.pocket.enabled" = lock-false;
         "extensions.screenshots.disabled" = lock-true;
         "browser.topsites.contile.enabled" = lock-false;
@@ -89,9 +97,9 @@ in
         "Google".metaData.hidden = true;
         "Wikipedia (en)".metaData.alias = "@w";
         "searx" = {
-          urls = [{
+          urls = lib.singleton {
             template = "http://10.44.4.100:8888/?q={searchTerms}";
-          }];
+          };
           updateInterval = 24 * 60 * 60 * 1000;
           definedAliases = [ "@sx" ];
         };

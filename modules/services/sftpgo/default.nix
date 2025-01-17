@@ -1,15 +1,20 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   services.sftpgo = {
     enable = true;
     package = pkgs.sftpgo;
     settings = {
-      httpd.bindings = [{
+      httpd.bindings = lib.singleton {
         port = 8080;
         address = "0.0.0.0";
         enable_web_client = true;
         enable_web_admin = true;
-      }];
+      };
     };
   };
 

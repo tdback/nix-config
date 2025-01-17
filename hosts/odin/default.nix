@@ -21,10 +21,10 @@
     defaultGateway.address = "10.44.0.1";
     interfaces.eno1 = {
       useDHCP = false;
-      ipv4.addresses = [{
+      ipv4.addresses = lib.singleton {
         address = "10.44.4.101";
         prefixLength = 16;
-      }];
+      };
     };
   };
 
@@ -48,7 +48,7 @@
 
   programs.motd = {
     enable = true;
-    networkInterfaces = lib.lists.singleton "eno1";
+    networkInterfaces = [ "eno1" ];
     servicesToCheck = [
       "caddy"
       "immich-machine-learning"

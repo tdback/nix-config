@@ -1,9 +1,20 @@
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 {
   nix = {
     settings = {
-      trusted-users = [ "@wheel" "root" ];
-      experimental-features = lib.mkDefault [ "nix-command" "flakes" ];
+      trusted-users = [
+        "@wheel"
+        "root"
+      ];
+      experimental-features = lib.mkDefault [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
     };
     gc = {
@@ -19,7 +30,7 @@
       allowUnfreePredicate = (_: true);
     };
     overlays = [
-      (final: prev: {
+      (final: _prev: {
         unstable = import inputs.nixpkgs-unstable {
           system = final.system;
           config.allowUnfree = true;

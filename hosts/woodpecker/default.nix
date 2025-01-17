@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ lib, inputs, ... }:
 {
   system.stateVersion = "24.05";
 
@@ -20,10 +20,10 @@
     defaultGateway.address = "10.44.0.1";
     interfaces.enp42s0 = {
       useDHCP = false;
-      ipv4.addresses = [{
+      ipv4.addresses = lib.singleton {
         address = "10.44.4.50";
         prefixLength = 16;
-      }];
+      };
     };
   };
 
@@ -34,6 +34,9 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "riscv64-linux"
+    ];
   };
 }

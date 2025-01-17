@@ -26,7 +26,10 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "riscv64-linux"
+    ];
   };
 
   # Since I don't always carry my split keyboard, remap CAPS to left CTRL.

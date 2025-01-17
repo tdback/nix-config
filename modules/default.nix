@@ -1,10 +1,9 @@
 { inputs }:
 let
-  genModules = { type, modules }:
-    builtins.map (module: "${inputs.self}/modules/${type}/${module}") modules;
+  genModules =
+    { type, modules }: builtins.map (module: "${inputs.self}/modules/${type}/${module}") modules;
 
-  mkModules = moduleAttrList:
-    builtins.concatMap (moduleAttr: genModules moduleAttr) moduleAttrList;
+  mkModules = moduleAttrList: builtins.concatMap (moduleAttr: genModules moduleAttr) moduleAttrList;
 in
 {
   mkSystem = hostname: nixpkgsVersion: modules: {

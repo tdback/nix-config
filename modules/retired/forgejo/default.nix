@@ -1,4 +1,10 @@
-{ inputs, config, lib, pkgs, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   domain = "git.tdback.net";
   port = 3000;
@@ -37,7 +43,8 @@ in
       password = config.age.secrets.forgejoAdminPass.path;
       user = "tdback";
       email = "tyler@tdback.net";
-    in ''
+    in
+    ''
       ${adminCmd} create --admin --email ${email} --username ${user} --password "$(tr -d '\n' < ${password})" || true
     '';
 

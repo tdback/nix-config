@@ -1,15 +1,15 @@
-{ inputs, config, lib, ... }:
+{
+  inputs,
+  config,
+  ...
+}:
 let
-  # TODO: Think about changing this to config.networking.interface...
-  # Will have to pull the first value in the list, which might be messy but it
-  # will definitely make it more producible across machines.
   ip = "10.0.0.203";
   interface = "eno1";
   directory = "/opt/pihole";
 in
 {
-  systemd.tmpfiles.rules =
-    map (x: "d ${x} 0755 share share - -") (lib.lists.singleton directory);
+  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") [ directory ];
 
   virtualisation.oci-containers.containers.pihole = {
     image = "pihole/pihole:latest";
@@ -41,12 +41,16 @@ in
   systemd.services.podman-pihole.postStart =
     let
       password = config.age.secrets.piholeAdminPass.path;
-    in ''
+    in
+    ''
       podman exec -it pihole pihole -a -p "$(tr -d '\n' < ${password})"
     '';
 
   networking.firewall = {
-    allowedTCPPorts = [ 53 80 ];
+    allowedTCPPorts = [
+      53
+      80
+    ];
     allowedUDPPorts = [ 53 ];
   };
 }

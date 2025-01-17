@@ -1,27 +1,35 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.cgit;
 
-  mkCgitrc = cfg:
-    pkgs.writeText "cgitrc" (let
-      cgitConfig = {
-        css = "/cgit.css";
-        logo = "/cgit.png";
-        favicon = "/favicon.ico";
-        about-filter = "${cfg.package}/lib/cgit/filters/about-formatting.sh";
-        source-filter = "${cfg.package}/lib/cgit/filters/syntax-highlighting.py";
-        enable-git-config = 1;
-        enable-http-clone = 1;
-        remove-suffix = 1;
-        clone-url = "https://${cfg.virtualHost}/$CGIT_REPO_URL";
-        scan-path = cfg.scanPath;
-      };
-    in
+  mkCgitrc =
+    cfg:
+    pkgs.writeText "cgitrc" (
+      let
+        cgitConfig = {
+          css = "/cgit.css";
+          logo = "/cgit.png";
+          favicon = "/favicon.ico";
+          about-filter = "${cfg.package}/lib/cgit/filters/about-formatting.sh";
+          source-filter = "${cfg.package}/lib/cgit/filters/syntax-highlighting.py";
+          enable-git-config = 1;
+          enable-http-clone = 1;
+          remove-suffix = 1;
+          clone-url = "https://${cfg.virtualHost}/$CGIT_REPO_URL";
+          scan-path = cfg.scanPath;
+        };
+      in
       generators.toKeyValue { } (cfg.settings // cgitConfig)
     );
 
-  mkCgitAssets = pkg: files:
+  mkCgitAssets =
+    pkg: files:
     strings.concatStringsSep "\n" (
       builtins.map (f: ''
         handle_path /${f} {
@@ -30,7 +38,8 @@ let
         }
       '') files
     );
-in {
+in
+{
   disabledModules = [ "services/networking/cgit.nix" ];
 
   options = {
@@ -64,7 +73,15 @@ in {
       };
       settings = mkOption {
         default = { };
-        type = with types; let settingType = oneOf [ bool int str ]; in
+        type =
+          with types;
+          let
+            settingType = oneOf [
+              bool
+              int
+              str
+            ];
+          in
           attrsOf (oneOf [
             settingType
             (listOf settingType)
@@ -89,7 +106,7 @@ in {
       openssh.authorizedKeys.keys = cfg.authorizedKeys;
     };
 
-    users.groups.${cfg.group} = {};
+    users.groups.${cfg.group} = { };
 
     # Harden git user to prevent SSH port forwarding to other servers.
     services.openssh = {
@@ -112,21 +129,26 @@ in {
       socket = { inherit (config.services.caddy) user group; };
     };
 
-    services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig = let
-      socket = config.services.fcgiwrap.instances.cgit.socket.address;
-    in ''
-      encode zstd gzip
+    services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig =
+      let
+        socket = config.services.fcgiwrap.instances.cgit.socket.address;
+      in
+      ''
+        encode zstd gzip
 
-      reverse_proxy unix/${socket} {
-        transport fastcgi {
-          env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
-          env CGIT_CONFIG ${mkCgitrc cfg}
+        reverse_proxy unix/${socket} {
+          transport fastcgi {
+            env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
+            env CGIT_CONFIG ${mkCgitrc cfg}
+          }
         }
-      }
 
-      ${mkCgitAssets cfg.package [
-        "cgit.css" "cgit.png" "favicon.ico" "robots.txt"
-      ]}
-    '';
+        ${mkCgitAssets cfg.package [
+          "cgit.css"
+          "cgit.png"
+          "favicon.ico"
+          "robots.txt"
+        ]}
+      '';
   };
 }

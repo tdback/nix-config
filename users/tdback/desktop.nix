@@ -1,20 +1,30 @@
 { config, pkgs, ... }:
 let
-  mkDirs = defined:
+  mkDirs =
+    defined:
     let
       home = config.home.homeDirectory;
-      dirs = [ "desktop" "documents" "download" "music" "pictures" "publicShare" "templates" "videos" ];
+      dirs = [
+        "desktop"
+        "documents"
+        "download"
+        "music"
+        "pictures"
+        "publicShare"
+        "templates"
+        "videos"
+      ];
     in
-      builtins.listToAttrs (
-        builtins.map (dir: {
-          name = dir;
-          value =
-            if builtins.hasAttr dir defined then
-              "${home}/${defined.${dir}}"
-            else
-              null;
-        }) dirs
-      );
+    {
+      enable = true;
+      createDirectories = true;
+    }
+    // (builtins.listToAttrs (
+      builtins.map (dir: {
+        name = dir;
+        value = if builtins.hasAttr dir defined then "${home}/${defined.${dir}}" else null;
+      }) dirs
+    ));
 in
 {
   imports = [
@@ -29,11 +39,11 @@ in
 
   home.packages = with pkgs.unstable; [
     clang
+    element-desktop
     gimp
     gitu
     mpv
     pciutils
-    signal-desktop
     tidal-dl
     yt-dlp
     zathura
@@ -41,10 +51,10 @@ in
 
   xdg = {
     enable = true;
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-    } // (mkDirs { documents = "documents"; download = "downloads"; });
+    userDirs = mkDirs {
+      documents = "documents";
+      download = "downloads";
+    };
   };
 
   qt = {

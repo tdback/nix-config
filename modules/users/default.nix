@@ -6,7 +6,13 @@
       uid = 1000;
       home = "/home/tdback";
       group = "tdback";
-      extraGroups = [ "wheel" "users" "networkmanager" "video" "audio" ];
+      extraGroups = [
+        "wheel"
+        "users"
+        "networkmanager"
+        "video"
+        "audio"
+      ];
       shell = pkgs.bash;
       ignoreShellProgramCheck = true;
     };

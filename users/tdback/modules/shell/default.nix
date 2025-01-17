@@ -10,7 +10,10 @@
     bash = {
       enable = true;
       historyFile = "~/.bash_history";
-      historyControl = [ "ignoredups" "ignorespace" ];
+      historyControl = [
+        "ignoredups"
+        "ignorespace"
+      ];
       shellOptions = [ "histappend" ];
       initExtra = ''
         PS1="
