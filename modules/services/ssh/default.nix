@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  ports = lib.lists.singleton 2222;
+  ports = [ 2222 ];
 in
 {
   services.openssh = {
