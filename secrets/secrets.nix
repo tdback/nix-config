@@ -7,14 +7,9 @@ let
     thor = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEn+C6ktSqvvwNVf1zUeNKKtZJ1QgLVhQjU83+0RvSY";
   };
 
-  users = {
-    tdback = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICSDrYIsIPOpxB2qap2EPAREK1yupGw/GuyWkvo8IcDD";
-  };
-
   allSystems = builtins.attrValues systems;
-  allUsers = builtins.attrValues users;
 in
 {
-  "pushoverAppToken.age".publicKeys = allSystems ++ allUsers;
-  "pushoverUserToken.age".publicKeys = allSystems ++ allUsers;
+  "pushoverAppToken.age".publicKeys = allSystems;
+  "pushoverUserToken.age".publicKeys = allSystems;
 }
