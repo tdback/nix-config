@@ -39,7 +39,6 @@ in
 
   home.packages = with pkgs.unstable; [
     clang
-    element-desktop
     gimp
     gitu
     mpv

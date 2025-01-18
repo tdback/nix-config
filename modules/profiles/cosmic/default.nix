@@ -22,16 +22,16 @@
   # use the clipboard manager.
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;
 
-  # Don't use flatpaks, which will pull in `cosmic-store`.
-  services.flatpak.enable = false;
+  # Enable flatpaks, which will pull in `cosmic-store`.
+  services.flatpak.enable = true;
 
-  # Don't include these packages either.
+  # Optionally exclude packages.
   environment.cosmic.excludePackages = with pkgs; [
     cosmic-edit
     cosmic-player
   ];
 
-  # Install any additional fonts.
+  # Install additional fonts.
   fonts.packages = with pkgs; [
     iosevka-comfy.comfy-motion-fixed
   ];
