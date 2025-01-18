@@ -95,6 +95,10 @@
               "pushover"
             ];
           }
+          {
+            type = "services";
+            modules = [ "ssh" ];
+          }
         ])
         (mkSystem "odin" "x86_64-linux" inputs.nixpkgs [
           {
