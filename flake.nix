@@ -97,7 +97,10 @@
           }
           {
             type = "services";
-            modules = [ "ssh" ];
+            modules = [
+              "matrix"
+              "ssh"
+            ];
           }
         ])
         (mkSystem "odin" "x86_64-linux" inputs.nixpkgs [
@@ -174,7 +177,6 @@
             type = "services";
             modules = [
               "fediverse"
-              "proxy"
               "ssh"
               "web"
             ];
