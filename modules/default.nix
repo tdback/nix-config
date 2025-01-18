@@ -8,7 +8,7 @@ in
 {
   mkSystem = hostname: system: nixpkgsVersion: modules: {
     ${hostname} = nixpkgsVersion.lib.nixosSystem {
-      system = system;
+      inherit system;
       modules = (mkModules modules) ++ [
         "${inputs.self}/hosts/${hostname}"
         "${inputs.self}/modules/users"
