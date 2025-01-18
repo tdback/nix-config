@@ -104,7 +104,7 @@ in
       public_baseurl = baseUrl;
       listeners = lib.singleton {
         port = 8008;
-        bind_address = [ "::1" ];
+        bind_addresses = [ "::1" ];
         type = "http";
         tls = false;
         x_forwarded = true;
