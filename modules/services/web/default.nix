@@ -15,14 +15,14 @@ in
     virtualHosts = {
       ${config.networking.domain}.extraConfig = ''
         handle /.well-known/matrix/server {
-          Content-Type application/json
-          Access-Control-Allow-Origin *
+          header Content-Type application/json
+          header Access-Control-Allow-Origin *
           respond `{"m.server": "${fqdn}:443"}`
         }
 
         handle /.well-known/matrix/client {
-          Content-Type application/json
-          Access-Control-Allow-Origin *
+          header Content-Type application/json
+          header Access-Control-Allow-Origin *
           respond `{"m.homeserver": {"base_url": "${baseUrl}"}}`
         }
 
