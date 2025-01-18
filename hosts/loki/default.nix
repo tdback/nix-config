@@ -19,7 +19,7 @@
     networkmanager.enable = true;
   };
 
-  time.timeZone = "Europe/Helsinki";
+  time.timeZone = "America/Detroit";
 
   boot.loader.grub = {
     enable = true;
@@ -30,6 +30,10 @@
   programs.motd = {
     enable = true;
     networkInterfaces = [ "enp1s0" ];
-    servicesToCheck = [ ];
+    servicesToCheck = [
+      "coturn"
+      "matrix"
+      "postgresql"
+    ];
   };
 }
