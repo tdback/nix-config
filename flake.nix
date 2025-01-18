@@ -24,7 +24,7 @@
     in
     {
       nixosConfigurations = mergeSets [
-        (mkSystem "frigg" inputs.nixpkgs [
+        (mkSystem "frigg" "x86_64-linux" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [
@@ -54,7 +54,7 @@
             ];
           }
         ])
-        (mkSystem "heimdall" inputs.nixpkgs [
+        (mkSystem "heimdall" "x86_64-linux" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [
@@ -79,7 +79,24 @@
             ];
           }
         ])
-        (mkSystem "odin" inputs.nixpkgs [
+        (mkSystem "loki" "aarch64-linux" inputs.nixpkgs [
+          {
+            type = "profiles";
+            modules = [
+              "common"
+              "security"
+              "upgrade"
+            ];
+          }
+          {
+            type = "scripts";
+            modules = [
+              "motd"
+              "pushover"
+            ];
+          }
+        ])
+        (mkSystem "odin" "x86_64-linux" inputs.nixpkgs [
           {
             type = "containers";
             modules = [
@@ -120,7 +137,7 @@
             ];
           }
         ])
-        (mkSystem "sparrow" inputs.nixpkgs (
+        (mkSystem "sparrow" "x86_64-linux" inputs.nixpkgs (
           inputs.nixpkgs.lib.singleton {
             type = "profiles";
             modules = [
@@ -132,7 +149,7 @@
             ];
           }
         ))
-        (mkSystem "thor" inputs.nixpkgs [
+        (mkSystem "thor" "x86_64-linux" inputs.nixpkgs [
           {
             type = "profiles";
             modules = [
@@ -159,7 +176,7 @@
             ];
           }
         ])
-        (mkSystem "woodpecker" inputs.nixpkgs (
+        (mkSystem "woodpecker" "x86_64-linux" inputs.nixpkgs (
           inputs.nixpkgs.lib.singleton {
             type = "profiles";
             modules = [

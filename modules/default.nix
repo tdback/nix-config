@@ -6,9 +6,9 @@ let
   mkModules = moduleAttrList: builtins.concatMap (moduleAttr: genModules moduleAttr) moduleAttrList;
 in
 {
-  mkSystem = hostname: nixpkgsVersion: modules: {
+  mkSystem = hostname: system: nixpkgsVersion: modules: {
     ${hostname} = nixpkgsVersion.lib.nixosSystem {
-      system = "x86_64-linux";
+      system = system;
       modules = (mkModules modules) ++ [
         "${inputs.self}/hosts/${hostname}"
         "${inputs.self}/modules/users"
