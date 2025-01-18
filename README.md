@@ -2,6 +2,7 @@
 - `hosts/`
   - `frigg/` - my git and SFTP server.
   - `heimdall/` - my DNS server and SearXNG host.
+  - `loki/` - my matrix and coturn server.
   - `odin/` - my media server and makeshift NAS. Media is stored in a RAID-Z2
   ZFS pool for redundancy, with a caching drive for increased read performance.
   - `sparrow/` - my laptop.
