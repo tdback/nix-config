@@ -1,77 +1,119 @@
-{ lib, pkgs, ... }:
 {
-  accounts.email = {
-    maildirBasePath = "mail";
-    accounts.fastmail = {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  username = config.home.username;
+  email = "tyler@tdback.net";
+  provider = "fastmail.com";
+  mailboxes = lib.attrValues config.accounts.email.accounts.${username}.folders;
+in
+{
+  accounts.email.maildirBasePath = "mail";
+  accounts.email.accounts = {
+    ${username} = {
       primary = true;
-      address = "tyler@tdback.net";
-      userName = "tyler@tdback.net";
+      address = email;
+      userName = email;
       realName = "Tyler Dunneback";
       passwordCommand = "${lib.getExe pkgs.age} -d -i ~/.ssh/mail ~/.mail.age";
 
-      folders = {
-        inbox = "Inbox";
-        drafts = "Drafts";
-        sent = "Sent";
-        trash = "Trash";
-      };
-
       imap = {
-        host = "imap.fastmail.com";
+        host = "imap.${provider}";
         port = 993;
-        tls = {
-          enable = true;
-          certificatesFile = "/etc/ssl/certs/ca-certificates.crt";
-        };
+        tls.enable = true;
       };
 
       smtp = {
-        host = "smtp.fastmail.com";
+        host = "smtp.${provider}";
         port = 465;
-        tls = {
-          enable = true;
-          useStartTls = false;
-          certificatesFile = "/etc/ssl/certs/ca-certificates.crt";
-        };
+        tls.enable = true;
       };
 
       mbsync = {
         enable = true;
         create = "both";
-        expunge = "none";
-        subFolders = "Verbatim";
-        patterns = [ "*" ];
       };
 
       msmtp = {
         enable = true;
-        extraConfig = {
-          logfile = "~/.cache/msmtp/msmtp.log";
-        };
+        extraConfig.logfile = "~/.cache/msmtp/msmtp.log";
       };
 
       neomutt = {
         enable = true;
-        sendMailCommand = "msmtp";
-        mailboxType = "maildir";
-        extraMailboxes = [
-          "Drafts"
-          "Sent"
-          "Trash"
-          "Archive"
-        ];
+        sendMailCommand = lib.getExe pkgs.msmtp;
+        extraMailboxes = mailboxes;
       };
     };
   };
 
-  programs = {
-    mbsync.enable = true;
-    msmtp.enable = true;
-  };
+  services.mbsync.enable = true;
 
-  services.mbsync = {
-    enable = true;
-    package = pkgs.isync;
-    frequency = "*:0/5";
-  };
+  programs.neomutt =
+    let
+      mkAction =
+        {
+          key,
+          action,
+          map ? [
+            "index"
+            "pager"
+          ],
+        }:
+        {
+          inherit key action map;
+        };
+    in
+    {
+      enable = true;
+      package = pkgs.unstable.neomutt;
+      vimKeys = true;
+      sort = "reverse-date";
+      checkStatsInterval = 60;
+      sidebar.enable = true;
+      binds = [
+        (mkAction {
+          key = "\\Cp";
+          action = "sidebar-prev";
+        })
+        (mkAction {
+          key = "\\Cn";
+          action = "sidebar-next";
+        })
+        (mkAction {
+          key = "\\Cy";
+          action = "sidebar-open";
+        })
+      ];
+      macros = [
+        (mkAction {
+          key = "gi";
+          action = "<change-folder>=Inbox<enter>";
+        })
+        (mkAction {
+          key = "gs";
+          action = "<change-folder>=Sent<enter>";
+        })
+        (mkAction {
+          key = "gd";
+          action = "<change-folder>=Drafts<enter>";
+        })
+        (mkAction {
+          key = "gt";
+          action = "<change-folder>=Trash<enter>";
+        })
+        (mkAction {
+          key = "ga";
+          action = "<change-folder>=Archive<enter>";
+        })
+        (mkAction {
+          map = [ "index" ];
+          key = "S";
+          action = "<shell-escape>${lib.getExe pkgs.isync} -a<enter>";
+        })
+      ];
+    };
 }

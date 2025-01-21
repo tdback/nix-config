@@ -33,7 +33,6 @@ in
     ./modules/irc
     ./modules/mpd
     ./modules/ncmpcpp
-    ./modules/neomutt
     ./modules/tmux
   ];
 
@@ -42,6 +41,7 @@ in
     gimp
     gitu
     mpv
+    nixd
     pciutils
     tidal-dl
     yt-dlp
