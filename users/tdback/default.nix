@@ -19,13 +19,11 @@
     packages = with pkgs.unstable; [
       age
       bat
-      croc
       dig
       file
       fzf
       jq
       neovim
-      nixd
       ripgrep
       tealdeer
       unzip
