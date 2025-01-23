@@ -6,8 +6,8 @@
   - `odin/` - my media server and makeshift NAS. Media is stored in a RAID-Z2
   ZFS pool for redundancy, with a caching drive for increased read performance.
   - `sparrow/` - my laptop.
-  - `thor/` - my "social" server, responsible for hosting my fediverse server
-  and a few websites.
+  - `thor/` - my "social" server responsible for hosting my fediverse server,
+  website, and handling delegation to my matrix server.
   - `woodpecker/` - my desktop.
 - `modules/`
   - `containers/` - podman/docker container configurations.
