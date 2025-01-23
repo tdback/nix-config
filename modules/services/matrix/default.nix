@@ -6,8 +6,9 @@
   ...
 }:
 let
-  fqdn = "synapse.${config.networking.domain}";
   baseUrl = "https://${fqdn}";
+  fqdn = "synapse.${config.networking.domain}";
+  synPort = 8008;
 in
 {
   age.secrets = {
@@ -89,10 +90,14 @@ in
   services.caddy = {
     enable = true;
     virtualHosts = {
-      ${fqdn}.extraConfig = ''
-        reverse_proxy /_matrix/* localhost:8008
-        reverse_proxy /_synapse/client/* localhost:8008
-      '';
+      ${fqdn}.extraConfig =
+        let
+          localhost = "http://localhost:${builtins.toString synPort}";
+        in
+        ''
+          reverse_proxy /_matrix/* ${localhost}
+          reverse_proxy /_synapse/client/* ${localhost}
+        '';
     };
   };
 
@@ -103,7 +108,7 @@ in
       server_name = config.networking.domain;
       public_baseurl = baseUrl;
       listeners = lib.singleton {
-        port = 8008;
+        port = synPort;
         bind_addresses = [ "::1" ];
         type = "http";
         tls = false;
@@ -117,8 +122,8 @@ in
         };
       };
       turn_uris = with config.services.coturn; [
-        "turn:${realm}:3487?transport=udp"
-        "turn:${realm}:3487?transport=tcp"
+        "turn:${realm}?transport=udp"
+        "turn:${realm}?transport=tcp"
       ];
     };
   };
