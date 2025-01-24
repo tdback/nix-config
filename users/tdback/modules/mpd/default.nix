@@ -3,10 +3,6 @@
   services.mpd = {
     enable = true;
     package = pkgs.unstable.mpd;
-    network = {
-      listenAddress = "127.0.0.1";
-      port = 6600;
-    };
     musicDirectory = "~/media/music";
     extraConfig = ''
       log_file               "syslog"
@@ -25,4 +21,7 @@
       }
     '';
   };
+
+  # Add mpc for controlling mpd.
+  home.packages = with pkgs.unstable; [ mpc-cli ];
 }

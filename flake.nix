@@ -149,10 +149,10 @@
             type = "profiles";
             modules = [
               "common"
-              "cosmic"
               "pipewire"
               "security"
               "vpn"
+              "xorg"
             ];
           }
         ))
@@ -187,7 +187,6 @@
             type = "profiles";
             modules = [
               "common"
-              "cosmic"
               "fstrim"
               "libvirtd"
               "nvidia"
@@ -195,6 +194,7 @@
               "security"
               "steam"
               "wireshark"
+              "xorg"
             ];
           }
         ))

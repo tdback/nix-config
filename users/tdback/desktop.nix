@@ -28,16 +28,21 @@ let
 in
 {
   imports = [
+    ./modules/alacritty
+    ./modules/dunst
     ./modules/email
     ./modules/firefox
-    ./modules/irc
     ./modules/mpd
     ./modules/ncmpcpp
+    ./modules/polybar
+    ./modules/rofi
     ./modules/tmux
+    ./modules/xorg
   ];
 
   home.packages = with pkgs.unstable; [
     clang
+    feh
     gimp
     gitu
     mpv
