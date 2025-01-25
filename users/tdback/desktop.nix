@@ -45,11 +45,10 @@ in
     feh
     gimp
     gitu
+    imagemagick
     mpv
     nixd
     pciutils
-    tidal-dl
-    yt-dlp
     zathura
   ];
 

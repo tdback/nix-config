@@ -54,7 +54,6 @@
         cat = "bat -pp";
         grep = "grep --color=auto";
         diff = "diff --color=auto";
-        song = "yt-dlp --continue --no-check-certificate --format=bestaudio -x --add-metadata --audio-format=flac";
         mkdir = "mkdir -p";
       };
     };
