@@ -39,6 +39,14 @@
     ];
   };
 
+  security = {
+    polkit.enable = true;
+    sudo = {
+      enable = lib.mkDefault true;
+      wheelNeedsPassword = lib.mkDefault false;
+    };
+  };
+
   programs = {
     git.enable = true;
     htop.enable = true;
