@@ -60,8 +60,8 @@
         "super + r" = "${lib.getExe pkgs.unstable.rofi} -show drun";
         "super + x" = "${lib.getExe pkgs.unstable.alacritty}";
         "super + b" = "$BROWSER";
-        "super + p" = "${lib.getExe pkgs.unstable.flameshot} full -p $HOME/.local/screenshots";
-        "super + shift + p" = "${lib.getExe pkgs.unstable.flameshot} gui -p $HOME/.local/screenshots";
+        "super + p" = "$HOME/scripts/snapshot -f";
+        "super + shift + p" = "$HOME/scripts/snapshot -r";
         "super + Escape" = "systemctl --user restart polybar";
         "super + alt + {q,r}" = "${bspc} {quit,wm -r}";
 
