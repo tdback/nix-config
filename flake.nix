@@ -26,7 +26,6 @@
             modules = [
               "common"
               "podman"
-              "security"
               "upgrade"
               "wireguard"
               "zfs"
@@ -55,7 +54,6 @@
             type = "profiles";
             modules = [
               "common"
-              "security"
               "upgrade"
             ];
           }
@@ -80,7 +78,6 @@
             type = "profiles";
             modules = [
               "common"
-              "security"
               "upgrade"
             ];
           }
@@ -116,7 +113,6 @@
             modules = [
               "common"
               "podman"
-              "security"
               "share"
               "upgrade"
               "wireguard"
@@ -145,8 +141,6 @@
             type = "profiles";
             modules = [
               "common"
-              "pipewire"
-              "security"
               "vpn"
               "xorg"
             ];
@@ -157,7 +151,6 @@
             type = "profiles";
             modules = [
               "common"
-              "security"
               "upgrade"
               "wireguard"
             ];
@@ -186,8 +179,6 @@
               "fstrim"
               "libvirtd"
               "nvidia"
-              "pipewire"
-              "security"
               "steam"
               "wireshark"
               "xorg"
