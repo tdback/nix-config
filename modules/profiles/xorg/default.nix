@@ -5,11 +5,11 @@
 {
   hardware.graphics.enable32Bit = true;
 
-  services.xserver = {
+  services.flatpak.enable = true;
+  xdg.portal = {
     enable = true;
-    xkb.layout = "us";
-    displayManager.lightdm.enable = true;
-    windowManager.bspwm.enable = true;
+    config.common.default = "*";
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 
   services.displayManager.autoLogin = {
@@ -17,11 +17,11 @@
     user = "tdback";
   };
 
-  services.flatpak.enable = true;
-  xdg.portal = {
+  services.xserver = {
     enable = true;
-    config.common.default = "*";
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    xkb.layout = "us";
+    displayManager.lightdm.enable = true;
+    windowManager.bspwm.enable = true;
   };
 
   environment.systemPackages = with pkgs.xorg; [

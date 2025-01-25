@@ -9,14 +9,16 @@
     package = pkgs.unstable.bspwm;
     settings =
       let
-        color = "#3B4252";
+        border = "#16191F";
+        feedback = "#485264";
       in
       {
-        window_gap = 0;
-        top_padding = 0;
-        bottom_padding = 0;
-        right_padding = 0;
-        left_padding = 0;
+        window_gap = 4;
+        border_width = 1;
+        top_padding = 2;
+        bottom_padding = 2;
+        right_padding = 2;
+        left_padding = 2;
         top_monocle_padding = 0;
         bottom_monocle_padding = 0;
         right_monocle_padding = 0;
@@ -24,9 +26,9 @@
         split_ratio = 0.5;
         borderless_monocle = true;
         gapless_monocle = true;
-        normal_border_color = color;
-        active_border_color = color;
-        focused_border_color = color;
+        normal_border_color = border;
+        active_border_color = border;
+        focused_border_color = feedback;
       };
 
     rules = {
