@@ -1,15 +1,23 @@
-{ lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 let
-  ports = [ 2222 ];
+  sshPort = 2222;
+  wheelUsers =
+    with config.users;
+    with builtins;
+    filter (u: elem "wheel" users.${u}.extraGroups) (attrNames users);
 in
 {
   services.openssh = {
     enable = lib.mkDefault true;
-    ports = ports;
     openFirewall = true;
     startWhenNeeded = true;
+    ports = [ sshPort ];
     settings = {
-      AllowUsers = [ "tdback" ];
+      AllowUsers = wheelUsers;
       PermitRootLogin = "no";
       PasswordAuthentication = lib.mkDefault false;
     };
