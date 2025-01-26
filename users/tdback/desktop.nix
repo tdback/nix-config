@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 let
   mkDirs =
     defined:
@@ -42,6 +46,7 @@ in
 
   home.packages = with pkgs.unstable; [
     clang
+    deploy-rs
     feh
     gimp
     gitu

@@ -55,6 +55,7 @@
         grep = "grep --color=auto";
         diff = "diff --color=auto";
         mkdir = "mkdir -p";
+        deploy-flake = "f() { deploy .#$1 -s --remote-build --auto-rollback false && rsync -ax --delete ./ $1:/etc/nixos/; }; f";
       };
     };
   };
