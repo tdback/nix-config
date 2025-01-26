@@ -1,8 +1,36 @@
-{ lib, inputs, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 {
   system.stateVersion = "24.05";
 
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./filesystems
+    ./modules
+  ];
+
+  hardware = {
+    enableRedistributableFirmware = true;
+    cpu.intel.updateMicrocode = true;
+  };
+
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+    "sr_mod"
+  ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.zfs.extraPools = [ "tank" ];
 
   home-manager = {
     useGlobalPkgs = true;
@@ -14,9 +42,11 @@
     };
   };
 
+  time.timeZone = "America/Detroit";
   networking = {
     hostName = "odin";
-    hostId = "bd03847d"; # Required for ZFS support.
+    # A host ID is required when enabling ZFS.
+    hostId = "bd03847d";
     nameservers = [ "10.44.0.1" ];
     defaultGateway.address = "10.44.0.1";
     interfaces.eno1 = {
@@ -26,36 +56,5 @@
         prefixLength = 16;
       };
     };
-  };
-
-  time.timeZone = "America/Detroit";
-
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    zfs.extraPools = [ "tank" ];
-  };
-
-  services.zquota = {
-    enable = true;
-    quotas = {
-      "tank/backups" = 512;
-      "tank/media" = 1536;
-    };
-  };
-
-  programs.motd = {
-    enable = true;
-    networkInterfaces = [ "eno1" ];
-    servicesToCheck = [
-      "caddy"
-      "immich-machine-learning"
-      "immich-server"
-      "postgresql"
-      "redis-immich"
-      "zfs-zed"
-    ];
   };
 }

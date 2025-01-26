@@ -1,8 +1,34 @@
-{ lib, inputs, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 {
   system.stateVersion = "24.05";
 
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./filesystems
+    ./modules
+  ];
+
+  hardware = {
+    enableRedistributableFirmware = true;
+    cpu.intel.updateMicrocode = true;
+  };
+
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "sd_mod"
+    "sdhci_pci"
+    "usb_storage"
+    "xhci_pci"
+  ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.zfs.extraPools = [ "tank" ];
 
   home-manager = {
     useGlobalPkgs = true;
@@ -14,9 +40,11 @@
     };
   };
 
+  time.timeZone = "America/Detroit";
   networking = {
     hostName = "frigg";
-    hostId = "7a7d723a"; # Required for ZFS support.
+    # A host ID is required when enabling ZFS.
+    hostId = "7a7d723a";
     nameservers = [ "10.44.0.1" ];
     defaultGateway.address = "10.44.0.1";
     interfaces.enp59s0 = {
@@ -26,34 +54,5 @@
         prefixLength = 16;
       };
     };
-  };
-
-  time.timeZone = "America/Detroit";
-
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    zfs.extraPools = [ "tank" ];
-  };
-
-  services.zquota = {
-    enable = true;
-    quotas = {
-      "tank/sftpgo" = 512;
-    };
-  };
-
-  services.sftpgo.dataDir = "/tank/sftpgo";
-
-  programs.motd = {
-    enable = true;
-    networkInterfaces = [ "enp59s0" ];
-    servicesToCheck = [
-      "caddy"
-      "sftpgo"
-      "zfs-zed"
-    ];
   };
 }

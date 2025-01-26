@@ -1,8 +1,28 @@
-{ inputs, ... }:
+{
+  inputs,
+  ...
+}:
 {
   system.stateVersion = "24.11";
 
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./filesystems
+    ./modules
+  ];
+
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda2";
+    efiSupport = true;
+  };
+  boot.initrd = {
+    availableKernelModules = [
+      "xhci_pci"
+      "virtio_scsi"
+      "sr_mod"
+    ];
+    kernelModules = [ "dm-snapshot" ];
+  };
 
   home-manager = {
     useGlobalPkgs = true;
@@ -14,26 +34,9 @@
     };
   };
 
+  time.timeZone = "America/Detroit";
   networking = {
     hostName = "loki";
     networkmanager.enable = true;
-  };
-
-  time.timeZone = "America/Detroit";
-
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/sda2";
-    efiSupport = true;
-  };
-
-  programs.motd = {
-    enable = true;
-    networkInterfaces = [ "enp1s0" ];
-    servicesToCheck = [
-      "coturn"
-      "matrix"
-      "postgresql"
-    ];
   };
 }

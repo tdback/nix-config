@@ -1,8 +1,35 @@
-{ lib, inputs, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 {
   system.stateVersion = "24.05";
 
-  imports = [ ./hardware.nix ];
+  imports = [ ./filesystems ];
+
+  hardware = {
+    enableRedistributableFirmware = true;
+    cpu.amd.updateMicrocode = true;
+  };
+
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+  ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "riscv64-linux"
+  ];
 
   home-manager = {
     useGlobalPkgs = true;
@@ -14,6 +41,7 @@
     };
   };
 
+  time.timeZone = "America/Detroit";
   networking = {
     hostName = "woodpecker";
     nameservers = [ "10.44.0.1" ];
@@ -25,18 +53,5 @@
         prefixLength = 16;
       };
     };
-  };
-
-  time.timeZone = "America/Detroit";
-
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    binfmt.emulatedSystems = [
-      "aarch64-linux"
-      "riscv64-linux"
-    ];
   };
 }

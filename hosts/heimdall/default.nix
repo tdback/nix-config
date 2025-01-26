@@ -1,8 +1,32 @@
-{ lib, inputs, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 {
   system.stateVersion = "24.05";
 
-  imports = [ ./hardware.nix ];
+  imports = [
+    ./filesystems
+    ./modules
+  ];
+
+  hardware = {
+    enableRedistributableFirmware = true;
+    cpu.intel.updateMicrocode = true;
+  };
+
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "ahci"
+    "sd_mod"
+  ];
+  boot.kernelModules = [ "kvm-intel" ];
 
   home-manager = {
     useGlobalPkgs = true;
@@ -14,6 +38,7 @@
     };
   };
 
+  time.timeZone = "America/Detroit";
   networking = {
     hostName = "heimdall";
     nameservers = [ "10.44.0.1" ];
@@ -25,21 +50,5 @@
         prefixLength = 16;
       };
     };
-  };
-
-  time.timeZone = "America/Detroit";
-
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
-
-  programs.motd = {
-    enable = true;
-    networkInterfaces = [ "eno1" ];
-    servicesToCheck = [
-      "searx"
-      "unbound"
-    ];
   };
 }
