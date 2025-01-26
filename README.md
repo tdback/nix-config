@@ -11,7 +11,7 @@
   - `woodpecker/` - my desktop.
 - `modules/`
   - `containers/` - podman/docker container configurations.
-  - `customs/` - custom modules or overrides for existing modules in nixpkgs.
+  - `customs/` - overrides for existing modules in nixpkgs.
   - `profiles/` - configurations intended to be imported into a given system.
   - `scripts/` - custom shell scripts wrapped in nix (primarily for servers).
   - `services/` - service/daemon configurations.
