@@ -1,27 +1,77 @@
-{ ... }:
+{
+  config,
+  lib,
+  ...
+}:
+with lib;
 let
-  directory = "/opt/freshrss";
-  port = "8888";
+  service = "freshrss";
+  cfg = config.modules.containers.${service};
 in
 {
-  systemd.tmpfiles.rules = builtins.map (x: "d ${x} 0755 share share - -") [ directory ];
-
-  virtualisation.oci-containers.containers.freshrss = {
-    image = "freshrss/freshrss:latest";
-    autoStart = true;
-    ports = [ "${port}:80" ];
-    volumes = [
-      "${directory}/data:/var/www/FreshRSS/data"
-      "${directory}/extensions:/var/www/FreshRSS/extensions"
-    ];
-    environment = {
-      TZ = "America/Detroit";
-      CRON_MIN = "*/20";
+  options.modules.containers.${service} = {
+    enable = mkEnableOption service;
+    user = mkOption {
+      default = "share";
+      type = types.str;
+    };
+    group = mkOption {
+      default = "share";
+      type = types.str;
+    };
+    port = mkOption {
+      default = 8888;
+      type = types.int;
+    };
+    url = mkOption {
+      default = null;
+      type = types.str;
+    };
+    configDir = mkOption {
+      default = "/opt/${service}";
+      type = types.str;
     };
   };
 
-  services.caddy.virtualHosts."fresh.brownbread.net".extraConfig = ''
-    encode zstd gzip
-    reverse_proxy http://localhost:${port}
-  '';
+  config = mkIf cfg.enable {
+    users.users.${cfg.user} = {
+      isSystemUser = true;
+      group = cfg.group;
+    };
+
+    users.groups.${cfg.group} = { };
+
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
+
+    services.caddy = {
+      enable = true;
+      virtualHosts = {
+        ${cfg.url}.extraConfig = ''
+          encode zstd gzip
+          reverse_proxy http://localhost:${builtins.toString cfg.port}
+        '';
+      };
+    };
+
+    systemd.tmpfiles.rules = builtins.map (f: "d ${f} 0755 ${cfg.user} ${cfg.group} - -") [
+      cfg.configDir
+    ];
+
+    virtualisation.oci-containers.containers.${service} = {
+      image = "${service}/${service}:latest";
+      autoStart = true;
+      ports = [ "${builtins.toString cfg.port}:80" ];
+      volumes = [
+        "${cfg.configDir}/data:/var/www/FreshRSS/data"
+        "${cfg.configDir}/extensions:/var/www/FreshRSS/extensions"
+      ];
+      environment = {
+        TZ = "America/Detroit";
+        CRON_MIN = "*/20";
+      };
+    };
+  };
 }
