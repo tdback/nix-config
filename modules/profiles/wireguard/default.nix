@@ -1,14 +1,12 @@
-{ ... }:
 let
-  port = 51820;
+  listenPort = 51820;
 in
 {
   networking = {
-    firewall.allowedUDPPorts = [ port ];
-
+    firewall.allowedUDPPorts = [ listenPort ];
     wg-quick.interfaces.wg0 = {
+      inherit listenPort;
       autostart = true;
-      listenPort = port;
       configFile = "/etc/wireguard/wg0.conf";
     };
   };

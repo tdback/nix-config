@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 {
   virtualisation.libvirtd = {
     enable = true;

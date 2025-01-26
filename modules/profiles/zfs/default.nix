@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  ...
+}:
 {
   boot = {
     zfs.forceImportRoot = false;
@@ -22,7 +26,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    zfs
-  ];
+  environment.systemPackages = with pkgs; [ zfs ];
 }
