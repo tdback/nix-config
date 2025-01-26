@@ -6,7 +6,7 @@
 }:
 with lib;
 let
-  cfg = config.services.cgit;
+  cfg = config.modules.customs.cgit;
 
   mkCgitrc =
     cfg:
@@ -21,7 +21,7 @@ let
           enable-git-config = 1;
           enable-http-clone = 1;
           remove-suffix = 1;
-          clone-url = "https://${cfg.virtualHost}/$CGIT_REPO_URL";
+          clone-url = "https://${cfg.url}/$CGIT_REPO_URL";
           scan-path = cfg.scanPath;
         };
       in
@@ -42,52 +42,44 @@ in
 {
   disabledModules = [ "services/networking/cgit.nix" ];
 
-  options = {
-    services.cgit = {
-      enable = mkEnableOption "cgit";
-      package = mkPackageOption pkgs "cgit" { };
-      user = mkOption {
-        default = "git";
-        type = types.str;
-        description = "User to run cgit service as.";
-      };
-      group = mkOption {
-        default = "git";
-        type = types.str;
-        description = "Group to run cgit service as.";
-      };
-      scanPath = mkOption {
-        default = "/var/lib/cgit";
-        type = types.path;
-        description = "A path which will be scanned for repositories.";
-      };
-      virtualHost = mkOption {
-        default = null;
-        type = types.str;
-        description = "Virtual host to serve cgit on.";
-      };
-      authorizedKeys = mkOption {
-        default = [ ];
-        type = types.listOf types.str;
-        description = "SSH keys for authorized git users.";
-      };
-      settings = mkOption {
-        default = { };
-        type =
-          with types;
-          let
-            settingType = oneOf [
-              bool
-              int
-              str
-            ];
-          in
-          attrsOf (oneOf [
-            settingType
-            (listOf settingType)
-          ]);
-        description = "Additional cgit configuration. See cgitrc(5).";
-      };
+  options.modules.customs.cgit = {
+    enable = mkEnableOption "cgit";
+    package = mkPackageOption pkgs "cgit" { };
+    user = mkOption {
+      default = "git";
+      type = types.str;
+    };
+    group = mkOption {
+      default = "git";
+      type = types.str;
+    };
+    scanPath = mkOption {
+      default = "/var/lib/cgit";
+      type = types.path;
+    };
+    url = mkOption {
+      default = null;
+      type = types.str;
+    };
+    authorizedKeys = mkOption {
+      default = [ ];
+      type = types.listOf types.str;
+    };
+    settings = mkOption {
+      default = { };
+      type =
+        with types;
+        let
+          settingType = oneOf [
+            bool
+            int
+            str
+          ];
+        in
+        attrsOf (oneOf [
+          settingType
+          (listOf settingType)
+        ]);
     };
   };
 
@@ -111,12 +103,17 @@ in
     # Harden git user to prevent SSH port forwarding to other servers.
     services.openssh = {
       enable = true;
-      settings.AllowUsers = [ cfg.user ];
+      openFirewall = true;
+      startWhenNeeded = true;
+      settings = {
+        AllowUsers = [ cfg.user ];
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+      };
       extraConfig = ''
         Match user ${cfg.user}
           AllowTCPForwarding no
           AllowAgentForwarding no
-          PasswordAuthentication no
           PermitTTY no
           X11Forwarding no
       '';
@@ -129,26 +126,36 @@ in
       socket = { inherit (config.services.caddy) user group; };
     };
 
-    services.caddy.virtualHosts.${cfg.virtualHost}.extraConfig =
-      let
-        socket = config.services.fcgiwrap.instances.cgit.socket.address;
-      in
-      ''
-        encode zstd gzip
+    networking.firewall.allowedTCPPorts = mkIf (cfg.url != null) [
+      80
+      443
+    ];
 
-        reverse_proxy unix/${socket} {
-          transport fastcgi {
-            env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
-            env CGIT_CONFIG ${mkCgitrc cfg}
-          }
-        }
+    services.caddy = mkIf (cfg.url != null) {
+      enable = true;
+      virtualHosts = {
+        ${cfg.url}.extraConfig =
+          let
+            socket = config.services.fcgiwrap.instances.cgit.socket.address;
+          in
+          ''
+            encode zstd gzip
 
-        ${mkCgitAssets cfg.package [
-          "cgit.css"
-          "cgit.png"
-          "favicon.ico"
-          "robots.txt"
-        ]}
-      '';
+            reverse_proxy unix/${socket} {
+              transport fastcgi {
+                env SCRIPT_FILENAME ${cfg.package}/cgit/cgit.cgi
+                env CGIT_CONFIG ${mkCgitrc cfg}
+              }
+            }
+
+            ${mkCgitAssets cfg.package [
+              "cgit.css"
+              "cgit.png"
+              "favicon.ico"
+              "robots.txt"
+            ]}
+          '';
+      };
+    };
   };
 }
