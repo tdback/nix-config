@@ -6,8 +6,17 @@ let
   mkModules = moduleAttrList: builtins.concatMap (moduleAttr: genModules moduleAttr) moduleAttrList;
 in
 {
-  mkSystem = hostname: system: nixpkgsVersion: modules: {
-    ${hostname} = nixpkgsVersion.lib.nixosSystem {
+  mkSystem = hostname: system: nixpkgsVersion: modules: rec {
+    deploy.nodes.${hostname} = {
+      inherit hostname;
+      profiles.system = {
+        user = "root";
+        sshUser = "tdback";
+        path = inputs.deploy-rs.lib.${system}.activate.nixos nixosConfigurations.${hostname};
+      };
+    };
+
+    nixosConfigurations.${hostname} = nixpkgsVersion.lib.nixosSystem {
       inherit system;
       modules = (mkModules modules) ++ [
         "${inputs.self}/hosts/${hostname}"
