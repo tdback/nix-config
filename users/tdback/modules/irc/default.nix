@@ -1,16 +1,16 @@
-{ ... }:
-let
-  user = "tdback";
-in
+{
+  config,
+  ...
+}:
 {
   programs.irssi = {
     enable = true;
     extraConfig = ''
-      settings = { core = { real_name = "${user}"; }; };
+      settings = { core = { real_name = "${config.home.username}"; }; };
     '';
     networks = {
       liberachat = {
-        nick = "${user}";
+        nick = config.home.username;
         saslExternal = true;
         server = {
           address = "irc.libera.chat";
@@ -19,7 +19,7 @@ in
           ssl = {
             enable = true;
             verify = true;
-            certificateFile = "/home/${user}/.irssi/certs/libera.pem";
+            certificateFile = "/home/${config.home.username}/.irssi/certs/libera.pem";
           };
         };
       };

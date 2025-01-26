@@ -1,9 +1,12 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 {
   programs.ncmpcpp = {
     enable = true;
     package = pkgs.unstable.ncmpcpp.override { visualizerSupport = true; };
-    mpdMusicDir = "~/Media/Music";
+    mpdMusicDir = "~/media/music";
     settings = {
       ncmpcpp_directory = "~/.config/ncmpcpp";
       lyrics_directory = "~/.local/share/lyrics";
