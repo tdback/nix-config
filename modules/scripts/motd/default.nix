@@ -6,9 +6,10 @@
 }:
 with lib;
 let
-  cfg = config.programs.motd;
+  script = "motd";
+  cfg = config.modules.scripts.${script};
 
-  motd = pkgs.writeShellScriptBin "motd" ''
+  motd = pkgs.writeShellScriptBin script ''
     RED="\e[31m"
     GREEN="\e[32m"
     YELLOW="\e[33m"
@@ -78,19 +79,17 @@ let
   '';
 in
 {
-  options = {
-    programs.motd = {
-      enable = mkEnableOption "motd";
-      networkInterfaces = mkOption {
-        default = [ ];
-        type = types.listOf types.str;
-        description = "Network interfaces to monitor.";
-      };
-      servicesToCheck = mkOption {
-        default = [ ];
-        type = types.listOf types.str;
-        description = "Services to validate alongside podman containers.";
-      };
+  options.modules.scripts.${script} = {
+    enable = mkEnableOption script;
+    networkInterfaces = mkOption {
+      default = [ ];
+      type = types.listOf types.str;
+      description = "Network interfaces to monitor.";
+    };
+    servicesToCheck = mkOption {
+      default = [ ];
+      type = types.listOf types.str;
+      description = "Services to validate alongside podman containers.";
     };
   };
 

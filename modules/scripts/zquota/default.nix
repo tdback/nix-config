@@ -6,7 +6,8 @@
 }:
 with lib;
 let
-  cfg = config.services.zquota;
+  script = "zquota";
+  cfg = config.modules.scripts.${script};
 
   zquota =
     let
@@ -14,7 +15,7 @@ let
       zfs = getExe pkgs.zfs;
       hostname = config.networking.hostName;
     in
-    pkgs.writeShellScriptBin "zquota" ''
+    pkgs.writeShellScriptBin script ''
       set -e
 
       if [ "$#" -ne 2 ]; then
@@ -46,31 +47,28 @@ let
     '';
 in
 {
-  options = {
-    services.zquota = {
-      enable = mkEnableOption "zquota";
-      quotas = mkOption {
-        default = { };
-        type = types.attrsOf types.int;
-        description = "Attribute set of ZFS dataset and disk quota (in GB).";
-      };
-      dates = mkOption {
-        default = "daily";
-        type = types.str;
-        description = ''
-          How often quota checks are performed.
+  options.modules.scripts.${script} = {
+    enable = mkEnableOption script;
+    quotas = mkOption {
+      default = { };
+      type = types.attrsOf types.int;
+      description = "Attribute set of ZFS dataset and disk quota (in GB).";
+    };
+    dates = mkOption {
+      default = "daily";
+      type = types.str;
+      description = ''
+        How often quota checks are performed.
 
-          This value must be a calendar event specified by
-          {manpage}`systemd.time(7)`.
-        '';
-      };
+        This value must be a calendar event specified by
+        {manpage}`systemd.time(7)`.
+      '';
     };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ zquota ];
-
-    systemd.services."zquota" = {
+    systemd.services.${script} = {
       description = "Perform and report scheduled quota checks on ZFS datasets.";
       serviceConfig.Type = "oneshot";
       script = strings.concatStringsSep "\n" (
@@ -79,7 +77,7 @@ in
         ) cfg.quotas
       );
     };
-    systemd.timers."zquota" = {
+    systemd.timers.${script} = {
       wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = cfg.dates;
