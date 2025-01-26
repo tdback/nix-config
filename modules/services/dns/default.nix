@@ -1,26 +1,48 @@
-{ pkgs, ... }:
 {
-  services.unbound = {
-    enable = true;
-    package = pkgs.unbound-with-systemd;
-    enableRootTrustAnchor = true;
-    resolveLocalQueries = true;
-    settings.server = {
-      interface = [ "0.0.0.0" ];
-      port = 53;
-      access-control = [ "10.44.0.0/16 allow" ];
-      harden-glue = true;
-      harden-dnssec-stripped = true;
-      use-caps-for-id = false;
-      edns-buffer-size = 1232;
-      prefetch = true;
-      hide-identity = true;
-      hide-version = true;
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+let
+  cfg = config.modules.services.dns;
+in
+{
+  options.modules.services.dns = {
+    enable = mkEnableOption "dns";
+    port = mkOption {
+      default = 53;
+      type = types.int;
+    };
+    subnet = mkOption {
+      default = "192.168.0.0/24";
+      type = types.str;
     };
   };
 
-  networking.firewall = {
-    allowedTCPPorts = [ 53 ];
-    allowedUDPPorts = [ 53 ];
+  config = mkIf cfg.enable {
+    networking.firewall = {
+      allowedTCPPorts = [ cfg.port ];
+      allowedUDPPorts = [ cfg.port ];
+    };
+    services.unbound = {
+      enable = true;
+      package = pkgs.unbound-with-systemd;
+      enableRootTrustAnchor = true;
+      resolveLocalQueries = true;
+      settings.server = {
+        interface = [ "0.0.0.0" ];
+        port = cfg.port;
+        access-control = [ "${cfg.subnet} allow" ];
+        harden-glue = true;
+        harden-dnssec-stripped = true;
+        use-caps-for-id = false;
+        edns-buffer-size = 1232;
+        prefetch = true;
+        hide-identity = true;
+        hide-version = true;
+      };
+    };
   };
 }

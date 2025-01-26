@@ -1,26 +1,55 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
 let
-  domain = "social.tdback.net";
-  port = 8080;
+  cfg = config.modules.services.fediverse;
 in
 {
-  services.gotosocial = {
-    enable = true;
-    package = pkgs.unstable.gotosocial;
-    settings = {
-      application-name = "gotosocial";
-      host = "${domain}";
-      protocol = "https";
-      bind-address = "localhost";
-      port = port;
-      db-type = "sqlite";
-      db-address = "/var/lib/gotosocial/database.sqlite";
-      storage-local-base-path = "/var/lib/gotosocial/storage";
+  options.modules.services.fediverse = {
+    enable = mkEnableOption "fediverse";
+    package = mkPackageOption pkgs "gotosocial" { };
+    port = mkOption {
+      default = 8080;
+      type = types.int;
+    };
+    url = mkOption {
+      type = types.str;
     };
   };
 
-  services.caddy.virtualHosts.${domain}.extraConfig = ''
-    encode zstd gzip
-    reverse_proxy http://localhost:${builtins.toString port}
-  '';
+  config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
+
+    services.caddy = {
+      enable = true;
+      virtualHosts = {
+        ${cfg.url}.extraConfig = ''
+          encode zstd gzip
+          reverse_proxy http://localhost:${builtins.toString cfg.port}
+        '';
+      };
+    };
+
+    services.gotosocial = {
+      enable = true;
+      package = cfg.package;
+      settings = {
+        application-name = "gotosocial";
+        bind-address = "localhost";
+        port = cfg.port;
+        host = cfg.url;
+        protocol = "https";
+        db-type = "sqlite";
+        db-address = "/var/lib/gotosocial/database.sqlite";
+        storage-local-base-path = "/var/lib/gotosocial/storage";
+      };
+    };
+  };
 }
