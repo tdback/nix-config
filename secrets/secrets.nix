@@ -13,5 +13,5 @@ in
   "coturnStaticAuth.age".publicKeys = [ systems.loki ];
   "pushoverAppToken.age".publicKeys = allSystems;
   "pushoverUserToken.age".publicKeys = allSystems;
-  "synapseYaml.age".publicKeys = [ systems.loki ];
+  "synapseRegistration.age".publicKeys = [ systems.loki ];
 }
