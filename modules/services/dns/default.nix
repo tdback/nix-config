@@ -19,6 +19,14 @@ in
       default = "192.168.0.0/24";
       type = types.str;
     };
+    verbosity = mkOption {
+      default = 1;
+      type = types.int;
+    };
+    ipv6 = mkOption {
+      default= false;
+      type = types.bool;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -32,6 +40,8 @@ in
       enableRootTrustAnchor = true;
       resolveLocalQueries = true;
       settings.server = {
+        verbosity = cfg.verbosity;
+        do-ip6 = cfg.ipv6;
         interface = [ "0.0.0.0" ];
         port = cfg.port;
         access-control = [ "${cfg.subnet} allow" ];
