@@ -25,7 +25,7 @@
     services.llm = {
       enable = true;
       port = 11111;
-      networkRange = "10.44.0.0/16";
+      subnet = "10.44.0.0/16";
       nvidiaGpu = true;
       models = [
         "mistral"

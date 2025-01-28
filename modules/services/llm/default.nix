@@ -15,10 +15,10 @@ in
       type = types.int;
       description = "Which port the Open-WebUI server listens to.";
     };
-    networkRange = mkOption {
+    subnet = mkOption {
       default = null;
       type = types.str;
-      description = "The network range allowed to acccess Open-WebUI and the ollama API";
+      description = "The network subnet allowed to acccess Open-WebUI and the ollama API";
     };
     nvidiaGpu = mkOption {
       default = false;
@@ -41,7 +41,7 @@ in
 
     services.open-webui = {
       enable = true;
-      host = if cfg.networkRange == null then "127.0.0.1" else "0.0.0.0";
+      host = if cfg.subnet == null then "127.0.0.1" else "0.0.0.0";
       port = cfg.port;
     };
 
@@ -53,9 +53,9 @@ in
         api = builtins.toString ollama.port;
         web = builtins.toString open-webui.port;
       in
-      mkIf (cfg.networkRange != null) ''
-        iptables -A nixos-fw -p tcp --source ${cfg.networkRange} --dport ${api}:${api} -j nixos-fw-accept
-        iptables -A nixos-fw -p tcp --source ${cfg.networkRange} --dport ${web}:${web} -j nixos-fw-accept
+      mkIf (cfg.subnet != null) ''
+        iptables -A nixos-fw -p tcp --source ${cfg.subnet} --dport ${api}:${api} -j nixos-fw-accept
+        iptables -A nixos-fw -p tcp --source ${cfg.subnet} --dport ${web}:${web} -j nixos-fw-accept
       '';
 
     # Enable the proprietary NVIDIA drivers in a headless fashion.
