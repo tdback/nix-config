@@ -24,7 +24,7 @@ in
       type = types.int;
     };
     ipv6 = mkOption {
-      default= false;
+      default = false;
       type = types.bool;
     };
   };
