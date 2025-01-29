@@ -6,7 +6,7 @@
   services.mpd = {
     enable = true;
     package = pkgs.unstable.mpd;
-    musicDirectory = "~/media/music";
+    musicDirectory = "~/Media/music";
     extraConfig = ''
       log_file               "syslog"
       max_output_buffer_size "16384"

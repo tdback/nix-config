@@ -11,7 +11,7 @@ let
   mailboxes = lib.attrValues config.accounts.email.accounts.${username}.folders;
 in
 {
-  accounts.email.maildirBasePath = "mail";
+  accounts.email.maildirBasePath = "Mail";
   accounts.email.accounts = {
     ${username} = {
       primary = true;

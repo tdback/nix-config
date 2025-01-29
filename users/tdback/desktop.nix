@@ -60,8 +60,8 @@ in
   xdg = {
     enable = true;
     userDirs = mkDirs {
-      documents = "documents";
-      download = "downloads";
+      documents = "Documents";
+      download = "Downloads";
     };
   };
 
