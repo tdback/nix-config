@@ -47,14 +47,14 @@
     '';
   };
 
-  services.sxhkd =
-    let
-      bspc = lib.getExe' pkgs.unstable.bspwm "bspc";
-    in
-    {
-      enable = true;
-      package = pkgs.unstable.sxhkd;
-      keybindings = {
+  services.sxhkd = {
+    enable = true;
+    package = pkgs.unstable.sxhkd;
+    keybindings =
+      let
+        bspc = lib.getExe' pkgs.unstable.bspwm "bspc";
+      in
+      {
         # Program hotkeys.
         "alt + Tab" = "${lib.getExe pkgs.unstable.rofi} -show window";
         "super + r" = "${lib.getExe pkgs.unstable.rofi} -show drun";
@@ -90,20 +90,17 @@
           "${bspc} node -z {right -20 0, top 0 20, bottom 0 -20, left 20 0}";
         "super + {Left,Down,Up,Right}" = "${bspc} node -v {-20 0,0 20,0 -20,20 0}";
       };
-    };
+  };
 
   # Generate X11 init scripts.
-  home.file = {
+  home.file = with pkgs.unstable.xorg; {
     ".xinitrc".text = ''
       [ -f ~/.xprofile ] && . ~/.xprofile
-      [ -f ~/.Xresources ] && ${lib.getExe pkgs.unstable.xorg.xrdb} -merge ~/.Xresources
+      [ -f ~/.Xresources ] && ${lib.getExe xrdb} -merge ~/.Xresources
       exec ${lib.getExe' pkgs.unstable.bspwm "bspwm"}
     '';
-    ".xprofile".text = ''
-      ${lib.getExe pkgs.unstable.xorg.xrandr} --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165
-    '';
-    ".Xresources".text = ''
-      Xcursor.size: 24
-    '';
+    ".xprofile".text =
+      "${lib.getExe xrandr} --output DP-0 --primary --mode 1920x1080 --rotate normal --rate 165";
+    ".Xresources".text = "Xcursor.size: 24";
   };
 }
