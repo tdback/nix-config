@@ -22,7 +22,7 @@
           family = "Iosevka Comfy Motion Fixed";
         in
         {
-          size = 14.0;
+          size = 16.0;
           normal = {
             inherit family;
             style = "Regular";
@@ -39,7 +39,7 @@
             inherit family;
             style = "Bold Italic";
           };
-      };
+        };
 
       # Tomorrow Night Bright colorscheme.
       colors = {
