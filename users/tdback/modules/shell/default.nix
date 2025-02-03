@@ -37,6 +37,7 @@
       EDITOR = "vi";
       KEYTIMEOUT = 1;
       LC_ALL = "en_US.UTF-8";
+      LEDGER_FILE = "$HOME/Documents/finance/2025.journal";
       LESSHISTFILE = "-";
       MANPAGER = "less -R --use-color -Dd+r -Du+b";
     };

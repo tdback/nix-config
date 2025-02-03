@@ -49,10 +49,12 @@ in
     feh
     gimp
     gitu
+    hledger
     imagemagick
     mpv
     nixd
     pciutils
+    (python312.withPackages (ps: with ps; [ uv ]))
     zathura
   ];
 
