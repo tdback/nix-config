@@ -38,10 +38,9 @@ in
     ./modules/firefox
     ./modules/mpd
     ./modules/ncmpcpp
-    ./modules/polybar
     ./modules/rofi
     ./modules/tmux
-    ./modules/xorg
+    ./modules/xmonad
   ];
 
   home.packages = with pkgs.unstable; [
