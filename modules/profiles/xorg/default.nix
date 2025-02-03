@@ -21,7 +21,10 @@
     enable = true;
     xkb.layout = "us";
     displayManager.lightdm.enable = true;
-    windowManager.xmonad.enable = true;
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+    };
   };
 
   security.rtkit.enable = true;
