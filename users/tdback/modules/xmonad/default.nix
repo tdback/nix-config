@@ -11,6 +11,10 @@ in
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
+    extraPackages = haskellPackages: [
+      haskellPackages.xmonad_0_18_0
+      haskellPackages.xmonad-contrib_0_18_1
+    ];
   };
 
   # Enable xmobar, which will be started from xmonad.
