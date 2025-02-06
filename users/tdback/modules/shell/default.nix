@@ -34,7 +34,6 @@
 
     sessionVariables = {
       BROWSER = "firefox";
-      EDITOR = "vi";
       KEYTIMEOUT = 1;
       LC_ALL = "en_US.UTF-8";
       LEDGER_FILE = "$HOME/Documents/finance/2025.journal";
@@ -53,6 +52,13 @@
       mkdir = "mkdir -p";
       deploy-flake = "f() { deploy .#$1 -s --remote-build --auto-rollback false && rsync -ax --delete ./ $1:/etc/nixos/; }; f";
     };
+  };
+
+  # Automatically use flake environments in the editor and shell.
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
   };
 
   programs.zoxide = {
