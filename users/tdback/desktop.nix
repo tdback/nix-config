@@ -34,6 +34,7 @@ in
   imports = [
     ./modules/alacritty
     ./modules/dunst
+    ./modules/emacs
     ./modules/email
     ./modules/firefox
     ./modules/mpd
