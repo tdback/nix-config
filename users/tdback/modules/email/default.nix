@@ -49,7 +49,7 @@ in
   home.packages =
     with pkgs.unstable;
     lib.mkIf config.programs.emacs.enable [
-    mu
-    mu.mu4e
-  ];
+      mu
+      mu.mu4e
+    ];
 }

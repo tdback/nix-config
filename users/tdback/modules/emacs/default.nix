@@ -7,10 +7,11 @@
   programs.emacs = {
     enable = true;
     package = pkgs.unstable.emacs30-gtk3;
-    extraPackages = epkgs: with epkgs; [
-      jinx
-      mu4e
-    ];
+    extraPackages =
+      epkgs: with epkgs; [
+        jinx
+        mu4e
+      ];
   };
 
   # Run emacs as a systemd daemon in graphical environments.
