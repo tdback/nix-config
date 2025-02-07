@@ -23,8 +23,9 @@
     client.enable = true;
   };
 
-  # Include dictionaries for spell checking.
+  # Include package libraries and dictionaries for spell checking.
   home.packages = with pkgs.unstable; [
+    emacsPackages.jinx
     enchant
     hunspellDicts.en-us-large
   ];
