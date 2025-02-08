@@ -22,4 +22,7 @@ in
       PasswordAuthentication = lib.mkDefault false;
     };
   };
+
+  # SSH over UDP!
+  programs.mosh.enable = true;
 }
