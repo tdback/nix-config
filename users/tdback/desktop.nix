@@ -49,9 +49,9 @@ in
     deploy-rs
     feh
     gimp
-    gitu
     hledger
     imagemagick
+    mosh
     mpv
     nixd
     pciutils
