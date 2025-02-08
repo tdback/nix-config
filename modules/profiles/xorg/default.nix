@@ -43,7 +43,7 @@
   ];
 
   fonts.packages = with pkgs; [
-    iosevka-comfy.comfy-motion-fixed
+    unstable.aporetic
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 }

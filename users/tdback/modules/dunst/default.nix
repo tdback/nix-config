@@ -13,7 +13,7 @@
         offset = "30x50";
         origin = "top-right";
         frame_color = "#2c363c";
-        font = "Iosevka Comfy Motion Fixed 12";
+        font = "Aporetic Sans Mono 12";
       };
       urgency_normal = {
         background = "#37474f";

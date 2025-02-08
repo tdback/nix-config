@@ -7,7 +7,7 @@
   programs.rofi = {
     enable = true;
     package = pkgs.unstable.rofi;
-    font = "Iosevka Comfy Motion Fixed 12";
+    font = "Aporetic Sans Mono 12";
     location = "center";
     extraConfig = {
       modi = "window,run,drun";

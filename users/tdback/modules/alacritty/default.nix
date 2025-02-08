@@ -19,10 +19,10 @@
       cursor.style.blinking = "Never";
       font =
         let
-          family = "Iosevka Comfy Motion Fixed";
+          family = "Aporetic Sans Mono";
         in
         {
-          size = 16.0;
+          size = 14.0;
           normal = {
             inherit family;
             style = "Regular";
