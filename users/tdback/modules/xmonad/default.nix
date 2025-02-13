@@ -23,7 +23,7 @@ in
     package = pkgs.unstable.xmobar;
     extraConfig =
       let
-        volume = lib.getExe pkgs.unstable.pavucontrol;
+        volume = getExe pkgs.unstable.pavucontrol;
       in
       ''
         Config
@@ -66,7 +66,5 @@ in
   };
 
   # Include these packages.
-  home.packages = with pkgs.unstable; [
-    pamixer
-  ];
+  home.packages = with pkgs.unstable; [ ];
 }
