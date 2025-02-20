@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  pkgs,
   ...
 }:
 {
@@ -55,8 +54,4 @@
       };
     };
   };
-
-  # Include udev rules and flashing utility for ZSA keyboards.
-  hardware.keyboard.zsa.enable = true;
-  environment.systemPackages = with pkgs; [ keymapp ];
 }

@@ -143,6 +143,7 @@
             "common"
             "vpn"
             "xorg"
+            "zsa"
           ];
         }
       ))
@@ -182,6 +183,7 @@
             "steam"
             "wireshark"
             "xorg"
+            "zsa"
           ];
         }
       ))
