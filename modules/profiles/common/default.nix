@@ -97,14 +97,9 @@
   };
   boot.kernelModules = [ "tcp_bbr" ];
 
-  programs.git.enable = true;
-  programs.htop.enable = true;
-  # Ensure we have the latest available neovim by default.
-  programs.neovim = {
-    enable = true;
-    package = pkgs.unstable.neovim-unwrapped;
-    viAlias = true;
-    vimAlias = true;
-    defaultEditor = true;
-  };
+  # Packages to install on every system.
+  environment.systemPackages = with pkgs; [
+    git
+    htop
+  ];
 }
