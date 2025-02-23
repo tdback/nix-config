@@ -17,15 +17,11 @@
     homeDirectory = "/home/tdback";
     stateVersion = "24.05";
     packages = with pkgs.unstable; [
-      age
       bat
       dig
       file
-      fzf
       jq
-      neovim
       ripgrep
-      tealdeer
       unzip
       zip
     ];

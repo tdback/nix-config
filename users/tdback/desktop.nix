@@ -45,6 +45,7 @@ in
   ];
 
   home.packages = with pkgs.unstable; [
+    age
     clang
     deploy-rs
     feh
