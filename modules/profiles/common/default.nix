@@ -2,7 +2,6 @@
   inputs,
   config,
   lib,
-  pkgs,
   ...
 }:
 {
@@ -97,14 +96,12 @@
   };
   boot.kernelModules = [ "tcp_bbr" ];
 
+  # Ensure these programs are *always* installed.
   programs.git.enable = true;
   programs.htop.enable = true;
-  # Ensure we have the latest available neovim by default.
   programs.neovim = {
     enable = true;
-    package = pkgs.unstable.neovim-unwrapped;
     viAlias = true;
     vimAlias = true;
-    defaultEditor = true;
   };
 }
