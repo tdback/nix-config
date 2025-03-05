@@ -38,7 +38,6 @@ in
     ./modules/email
     ./modules/firefox
     ./modules/mpd
-    ./modules/ncmpcpp
     ./modules/rofi
     ./modules/tmux
     ./modules/xmonad
@@ -49,6 +48,7 @@ in
     clang
     deploy-rs
     feh
+    (ffmpeg.override { withXcb = true; })
     gimp
     hledger
     imagemagick
