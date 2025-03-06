@@ -1,17 +1,14 @@
 {
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    deploy-rs.url = "github:serokell/deploy-rs";
-  };
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+  inputs.nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+  inputs.home-manager.url = "github:nix-community/home-manager/release-24.11";
+  inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.agenix.url = "github:ryantm/agenix";
+  inputs.agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+  inputs.deploy-rs.url = "github:serokell/deploy-rs";
 
   outputs =
     { ... }@inputs:
@@ -133,6 +130,29 @@
           modules = [
             "immich"
             "ssh"
+          ];
+        }
+      ])
+      (mkSystem "sol" "x86_64-linux" inputs.nixpkgs [
+        {
+          type = "profiles";
+          modules = [
+            "common"
+            "upgrade"
+          ];
+        }
+        {
+          type = "scripts";
+          modules = [
+            "motd"
+            "pushover"
+          ];
+        }
+        {
+          type = "services";
+          modules = [
+            "ssh"
+            "xonotic"
           ];
         }
       ])
