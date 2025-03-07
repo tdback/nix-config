@@ -37,6 +37,11 @@ in
       default = 4;
       type = types.int;
     };
+    skill = mkOption {
+      default = 5;
+      type = types.int;
+      description = "Sets the skill level of any bots. Higher values mean harder bots.";
+    };
     g_mutators = mkOption {
       default = { };
       type = types.attrsOf types.bool;
@@ -58,6 +63,7 @@ in
         maxplayers = cfg.maxplayers;
         minplayers = cfg.minplayers;
         minplayers_per_team = cfg.minplayers / 2;
+        skill = cfg.skill;
       } // (setMutators cfg.g_mutators);
     };
   };
