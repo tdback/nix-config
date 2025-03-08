@@ -1,4 +1,8 @@
 {
+  lib,
+  ...
+}:
+{
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/5ac7df5a-5908-4b6a-b982-88c34775205a";
     fsType = "ext4";
@@ -13,5 +17,7 @@
     ];
   };
 
-  swapDevices = [ ];
+  swapDevices = lib.singleton {
+    device = "/.swapfile";
+  };
 }
