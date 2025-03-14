@@ -18,194 +18,86 @@
     in
     mergeSets [
       (mkSystem "frigg" "x86_64-linux" inputs.nixpkgs [
-        {
-          type = "customs";
-          modules = [ "cgit" ];
-        }
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "upgrade"
-            "wireguard"
-            "zfs"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-            "zquota"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "llm"
-            "sftpgo"
-            "ssh"
-          ];
-        }
+        "customs/cgit"
+        "profiles/common"
+        "profiles/upgrade"
+        "profiles/wireguard"
+        "profiles/zfs"
+        "scripts/motd"
+        "scripts/pushover"
+        "scripts/zquota"
+        "services/llm"
+        "services/sftpgo"
+        "services/ssh"
       ])
       (mkSystem "heimdall" "x86_64-linux" inputs.nixpkgs [
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "upgrade"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "dns"
-            "searx"
-            "ssh"
-          ];
-        }
+        "profiles/common"
+        "profiles/upgrade"
+        "scripts/motd"
+        "scripts/pushover"
+        "services/dns"
+        "services/searx"
+        "services/ssh"
       ])
       (mkSystem "loki" "aarch64-linux" inputs.nixpkgs [
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "upgrade"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "matrix"
-            "ssh"
-          ];
-        }
+        "profiles/common"
+        "profiles/upgrade"
+        "scripts/motd"
+        "scripts/pushover"
+        "services/matrix"
+        "services/ssh"
       ])
       (mkSystem "odin" "x86_64-linux" inputs.nixpkgs [
-        {
-          type = "containers";
-          modules = [
-            "freshrss"
-            "jellyfin"
-            "lubelogger"
-            "pinchflat"
-            "vaultwarden"
-            "watchtower"
-          ];
-        }
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "podman"
-            "upgrade"
-            "wireguard"
-            "zfs"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-            "zquota"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "immich"
-            "ssh"
-          ];
-        }
+        "containers/freshrss"
+        "containers/jellyfin"
+        "containers/lubelogger"
+        "containers/pinchflat"
+        "containers/vaultwarden"
+        "containers/watchtower"
+        "profiles/common"
+        "profiles/podman"
+        "profiles/upgrade"
+        "profiles/wireguard"
+        "profiles/zfs"
+        "scripts/motd"
+        "scripts/pushover"
+        "scripts/zquota"
+        "services/immich"
+        "services/ssh"
       ])
       (mkSystem "sol" "x86_64-linux" inputs.nixpkgs [
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "upgrade"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "ssh"
-            "xonotic"
-          ];
-        }
+        "profiles/common"
+        "profiles/upgrade"
+        "scripts/motd"
+        "scripts/pushover"
+        "services/ssh"
+        "services/xonotic"
       ])
-      (mkSystem "sparrow" "x86_64-linux" inputs.nixpkgs (
-        inputs.nixpkgs.lib.singleton {
-          type = "profiles";
-          modules = [
-            "common"
-            "vpn"
-            "xorg"
-            "zsa"
-          ];
-        }
-      ))
+      (mkSystem "sparrow" "x86_64-linux" inputs.nixpkgs [
+        "profiles/common"
+        "profiles/vpn"
+        "profiles/xorg"
+        "profiles/zsa"
+      ])
       (mkSystem "thor" "x86_64-linux" inputs.nixpkgs [
-        {
-          type = "profiles";
-          modules = [
-            "common"
-            "upgrade"
-            "wireguard"
-          ];
-        }
-        {
-          type = "scripts";
-          modules = [
-            "motd"
-            "pushover"
-          ];
-        }
-        {
-          type = "services";
-          modules = [
-            "fediverse"
-            "ssh"
-            "website"
-          ];
-        }
+        "profiles/common"
+        "profiles/upgrade"
+        "profiles/wireguard"
+        "scripts/motd"
+        "scripts/pushover"
+        "services/fediverse"
+        "services/ssh"
+        "services/website"
       ])
-      (mkSystem "woodpecker" "x86_64-linux" inputs.nixpkgs (
-        inputs.nixpkgs.lib.singleton {
-          type = "profiles";
-          modules = [
-            "common"
-            "fstrim"
-            "libvirtd"
-            "nvidia"
-            "steam"
-            "wireshark"
-            "xorg"
-            "zsa"
-          ];
-        }
-      ))
+      (mkSystem "woodpecker" "x86_64-linux" inputs.nixpkgs [
+        "profiles/common"
+        "profiles/fstrim"
+        "profiles/libvirtd"
+        "profiles/nvidia"
+        "profiles/steam"
+        "profiles/wireshark"
+        "profiles/xorg"
+        "profiles/zsa"
+      ])
     ];
 }
