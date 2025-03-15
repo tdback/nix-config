@@ -1,3 +1,9 @@
+# users/tdback/modules/shell/default.nix
+#
+# My shell environment. I opt to use bash since it comes installed by default
+# on most distributions, including NixOS, and I spend a lot of time remoting
+# onto servers at work.
+
 {
   headless,
   ...
@@ -5,7 +11,6 @@
 {
   programs.bash = {
     enable = true;
-    historyFile = "~/.bash_history";
     historyControl = [
       "ignoredups"
       "ignorespace"
@@ -17,7 +22,6 @@
 
       # Sane options.
       set -o noclobber
-      set -o vi
       bind "\C-l":clear-screen
       bind "\C-p":previous-history
       bind "\C-n":next-history
@@ -50,7 +54,6 @@
       grep = "grep --color=auto";
       diff = "diff --color=auto";
       mkdir = "mkdir -p";
-      deploy-flake = "f() { deploy .#$1 -s --remote-build --auto-rollback false && rsync -ax --delete ./ $1:/etc/nixos/; }; f";
     };
   };
 
