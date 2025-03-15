@@ -17,9 +17,8 @@
     allowReboot = true;
   };
 
-  systemd.services."reboot-alert" =
+  systemd.services."server-monitor" =
     let
-      hostname = config.networking.hostName;
       dependencies = [ "network-online.target" ];
     in
     {
@@ -28,8 +27,16 @@
       after = dependencies;
       serviceConfig.Type = "oneshot";
       script = ''
-        /run/current-system/sw/bin/pushover -t "${hostname} restarted" \
-          "${hostname} has restarted on $(date '+%a, %b %d at %T %p %Z')."
+        ACTION="restarted"
+
+        # If a system has been up for *at least* 90 seconds, make the assumption
+        # that the system's configuration was rebuilt and activated.
+        if [ "$(cat /proc/uptime | cut -f1 -d.)" -gt 90 ]; then
+          ACTION="activated a new configuration"
+        fi
+
+        /run/current-system/sw/bin/pushover -t "${config.networking.hostName}" \
+          "Server $ACTION on $(date '+%a, %b %d at %T %p %Z')."
       '';
     };
 }
