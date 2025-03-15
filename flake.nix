@@ -1,4 +1,6 @@
 {
+  description = "One flake to rule them all.";
+
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
   inputs.nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
