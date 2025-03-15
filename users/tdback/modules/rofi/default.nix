@@ -1,3 +1,8 @@
+# users/tdback/modules/rofi/default.nix
+#
+# For launching applications and switching to active windows. While not
+# heavily used for scripting, the possibility is there.
+
 {
   config,
   pkgs,

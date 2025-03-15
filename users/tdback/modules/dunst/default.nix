@@ -1,3 +1,7 @@
+# users/tdback/modules/dunst/default.nix
+#
+# System-wide notifications daemon.
+
 {
   pkgs,
   ...

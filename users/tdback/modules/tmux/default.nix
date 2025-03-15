@@ -1,3 +1,8 @@
+# users/tdback/modules/tmux/default.nix
+#
+# My multiplexer outside of emacs. Rarely used anymore unless I'm editing with
+# (neo)vim.
+
 {
   pkgs,
   ...

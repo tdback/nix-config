@@ -1,3 +1,7 @@
+# users/tdback/modules/mpd/default.nix
+#
+# A music player daemon.
+
 {
   pkgs,
   ...

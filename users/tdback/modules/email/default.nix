@@ -1,3 +1,7 @@
+# users/tdback/modules/email/default.nix
+#
+# Archaic communication in the modern age.
+
 {
   config,
   lib,
@@ -43,9 +47,11 @@ in
     };
   };
 
+  # Require these programs for fetching/sending mail.
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
 
+  # Make these packages available in the cli if we are using emacs.
   home.packages =
     with pkgs.unstable;
     lib.mkIf config.programs.emacs.enable [

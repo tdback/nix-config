@@ -1,3 +1,9 @@
+# users/tdback/modules/xmonad/default.nix
+#
+# A purely functional window manager. While I've enjoyed using bspwm/sxhkd with
+# polybar in the past, I love the hackability of xmonad and its integration
+# with xmobar.
+
 {
   lib,
   pkgs,
@@ -11,6 +17,7 @@ in
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
+    # Use the latest version of xmonad available in nixpkgs.
     extraPackages = haskellPackages: [
       haskellPackages.xmonad_0_18_0
       haskellPackages.xmonad-contrib_0_18_1
@@ -48,7 +55,7 @@ in
       '';
   };
 
-  # Generate X11 init scripts.
+  # Generate X11 init scripts to launch xmonad on login.
   home.file = with pkgs.unstable; {
     ".xinitrc".text = ''
       [ -f ~/.xprofile ] && . ~/.xprofile

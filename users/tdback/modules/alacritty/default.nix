@@ -1,3 +1,7 @@
+# users/tdback/modules/alacritty/default.nix
+#
+# A terminal emulator when I'm not using emacs.
+
 {
   pkgs,
   ...

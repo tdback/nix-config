@@ -1,3 +1,9 @@
+# users/tdback/modules/firefox/default.nix
+#
+# Because google sucks.
+#
+# TODO: Replace firefox with librewolf?
+
 {
   config,
   lib,

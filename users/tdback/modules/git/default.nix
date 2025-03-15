@@ -1,3 +1,7 @@
+# users/tdback/modules/git/default.nix
+#
+# The de-facto version control system.
+
 {
   config,
   ...
