@@ -1,3 +1,7 @@
+# users/tdback/desktop.nix
+#
+# Additional home-manager configuration and packages for workstations.
+
 {
   config,
   pkgs,
@@ -34,10 +38,11 @@ in
   imports = [
     ./modules/alacritty
     ./modules/dunst
-    ./modules/emacs
+    ./modules/editor
     ./modules/email
     ./modules/firefox
     ./modules/mpd
+    ./modules/media
     ./modules/rofi
     ./modules/tmux
     ./modules/xmonad
@@ -45,16 +50,10 @@ in
 
   home.packages = with pkgs.unstable; [
     age
-    clang
     deploy-rs
     feh
-    (ffmpeg.override { withXcb = true; })
-    gimp
-    hledger
-    imagemagick
     mosh
     mpv
-    nixd
     pciutils
     (python312.withPackages (ps: with ps; [ uv ]))
     zathura
