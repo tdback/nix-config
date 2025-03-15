@@ -62,7 +62,6 @@
         "scripts/motd"
         "scripts/pushover"
         "scripts/zquota"
-        "services/immich"
         "services/ssh"
       ])
       (mkSystem "sol" "x86_64-linux" inputs.nixpkgs [

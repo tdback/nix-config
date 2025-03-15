@@ -22,20 +22,12 @@
       url = "buttered.brownbread.net";
       mediaDir = "/tank/media";
     };
-    services.immich = {
-      enable = true;
-      url = "photographs.brownbread.net";
-      mediaDir = "/tank/immich";
-    };
     scripts.motd = {
       enable = true;
       networkInterfaces = [ "eno1" ];
       servicesToCheck = [
         "caddy"
-        "immich-machine-learning"
-        "immich-server"
         "postgresql"
-        "redis-immich"
         "zfs-zed"
       ];
     };
