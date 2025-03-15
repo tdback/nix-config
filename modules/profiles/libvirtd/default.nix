@@ -1,3 +1,7 @@
+# modules/profiles/libvirtd/default.nix
+#
+# Enable the libvirt virtualization management system.
+
 {
   config,
   ...

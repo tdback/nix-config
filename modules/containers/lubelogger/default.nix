@@ -1,3 +1,7 @@
+# modules/profiles/lubelogger/default.nix
+#
+# Vehicle maintenance and fuel mileage tracker.
+
 {
   config,
   lib,

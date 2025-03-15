@@ -1,3 +1,7 @@
+# modules/containers/freshrss/default.nix
+#
+# An RSS reader and news aggregator.
+
 {
   config,
   lib,

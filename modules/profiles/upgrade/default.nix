@@ -1,3 +1,8 @@
+# modules/profiles/upgrade/default.nix
+#
+# Weekly package upgrades to keep select systems up to date. A service also
+# reports server events to notify me when a system updates or restarts.
+
 {
   inputs,
   config,

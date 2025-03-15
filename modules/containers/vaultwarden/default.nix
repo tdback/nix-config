@@ -1,3 +1,7 @@
+# modules/containers/vaultwarden/default.nix
+#
+# The Bitwarden compatible password management server.
+
 {
   config,
   lib,

@@ -1,3 +1,7 @@
+# modules/profiles/wireshark/default.nix
+#
+# For the occasional packet sniffing and network troubleshooting.
+
 {
   config,
   pkgs,

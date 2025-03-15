@@ -1,3 +1,7 @@
+# modules/services/dns/default.nix
+#
+# It's not DNS. There's no way it's DNS. It was DNS.
+
 {
   config,
   lib,

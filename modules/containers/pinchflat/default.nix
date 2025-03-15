@@ -1,3 +1,7 @@
+# modules/containers/pinchflat/default.nix
+#
+# For archiving and auto-downloading YouTube videos.
+
 {
   config,
   lib,

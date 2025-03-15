@@ -1,3 +1,7 @@
+# modules/services/xonotic/default.nix
+#
+# This game is seriously addictive.
+
 {
   config,
   lib,

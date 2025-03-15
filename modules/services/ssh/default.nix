@@ -1,3 +1,9 @@
+# modules/services/ssh/default.nix
+#
+# Configuration for secure remote access. I mainly use `mosh' for remoting into
+# servers, as it provides a smoother experience for boxes hosted halfway around
+# the world.
+
 {
   config,
   lib,

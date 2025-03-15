@@ -1,3 +1,7 @@
+# modules/users/default.nix
+#
+# Users to create on the system.
+
 {
   pkgs,
   ...

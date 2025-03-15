@@ -1,3 +1,7 @@
+# modules/scripts/pushover/default.nix
+#
+# Send notifications via the pushover API.
+
 {
   inputs,
   config,

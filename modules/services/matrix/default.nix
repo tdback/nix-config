@@ -1,3 +1,7 @@
+# modules/services/matrix/default.nix
+#
+# Secure, decentralized communication.
+
 {
   config,
   lib,

@@ -1,3 +1,8 @@
+# modules/services/fediverse/default.nix
+#
+# A portmanteau of "federation" and "universe". A lightweight instance for
+# participating in decentralized social media.
+
 {
   config,
   lib,

@@ -1,3 +1,7 @@
+# modules/profiles/common/default.nix
+#
+# Configuration and tweaks that should be included in *every* system.
+
 {
   inputs,
   config,

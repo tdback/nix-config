@@ -1,3 +1,8 @@
+# modules/profiles/zfs/default.nix
+#
+# Enabling the ZFS kernel module and configuring notifications for scrub
+# results, which are run monthly.
+
 {
   lib,
   pkgs,

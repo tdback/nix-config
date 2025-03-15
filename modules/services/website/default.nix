@@ -1,3 +1,7 @@
+# modules/services/website/default.nix
+#
+# For hosting my personal site/blog and delegating traffic to my matrix server.
+
 {
   config,
   lib,

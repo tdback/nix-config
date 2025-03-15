@@ -1,3 +1,10 @@
+# modules/customs/cgit/default.nix
+#
+# A web frontend for self-hosted git repositories. This module also creates a
+# git user for managing repositories on the git server.
+#
+# TODO: Fix syntax highlighting.
+
 {
   config,
   lib,

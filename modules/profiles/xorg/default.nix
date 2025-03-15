@@ -1,3 +1,8 @@
+# modules/profiles/xorg/default.nix
+#
+# Sure X11 is "old", but xmonad doesn't yet have xorg support. I've got my eyes
+# on https://github.com/YaLTeR/niri though.
+
 {
   pkgs,
   ...

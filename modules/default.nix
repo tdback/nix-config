@@ -1,3 +1,8 @@
+# modules/default.nix
+#
+# Helper functions for declaring system configurations and deployment nodes in
+# the root `flake.nix'.
+
 { inputs }:
 let
   mkModules = modules: builtins.map (module: "${inputs.self}/modules/${module}") modules;

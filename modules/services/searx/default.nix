@@ -1,3 +1,7 @@
+# modules/services/searx/default.nix
+#
+# A metasearch engine and results aggregator.
+
 {
   config,
   lib,

@@ -1,3 +1,7 @@
+# modules/containers/watchtower/default.nix
+#
+# I don't want to login and manually update my containers.
+
 {
   config,
   lib,

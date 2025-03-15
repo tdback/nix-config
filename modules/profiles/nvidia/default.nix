@@ -1,3 +1,7 @@
+# modules/profiles/nvidia/default.nix
+#
+# Drivers for NVIDIA cards.
+
 {
   config,
   ...

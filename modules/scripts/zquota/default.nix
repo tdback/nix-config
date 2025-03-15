@@ -1,3 +1,7 @@
+# modules/scripts/zquota/default.nix
+#
+# Monitor ZFS dataset disk usage.
+
 {
   config,
   lib,

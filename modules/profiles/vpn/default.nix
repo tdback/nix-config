@@ -1,3 +1,8 @@
+# modules/profiles/vpn/default.nix
+#
+# Sometimes I'm on scary public networks, and I don't like other people
+# sniffing my network packets.
+
 {
   pkgs,
   ...

@@ -1,3 +1,7 @@
+# modules/containers/jellyfin/default.nix
+#
+# Self-hosted Netflix.
+
 {
   config,
   lib,
