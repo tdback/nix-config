@@ -1,3 +1,7 @@
+# users/tdback/default.nix
+#
+# Home-manager configuration for all of my systems.
+
 {
   config,
   lib,
@@ -24,6 +28,9 @@
       ripgrep
       unzip
       zip
+      # Experiment with uutils as the default implementation of coreutils.
+      # Ensure they take a higher priority over the default GNU implementation.
+      (lib.hiPrio uutils-coreutils-noprefix)
     ];
   };
 
