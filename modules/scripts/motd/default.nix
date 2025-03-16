@@ -1,3 +1,7 @@
+# modules/scripts/motd/default.nix
+#
+# Display a welcome message when remoting into servers.
+
 {
   config,
   lib,
@@ -17,7 +21,7 @@ let
     ENDCOLOR="\e[0m"
 
     case "$(date +'%H')" in
-      [0-9]|1[0-1])
+      0[0-9]|1[0-1])
         TIME="morning"
         ;;
       1[2-7])
