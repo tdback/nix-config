@@ -24,6 +24,10 @@ in
     url = mkOption {
       type = types.str;
     };
+    landingPageUser = mkOption {
+      default = "";
+      type = types.str;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -54,6 +58,7 @@ in
         db-type = "sqlite";
         db-address = "/var/lib/gotosocial/database.sqlite";
         storage-local-base-path = "/var/lib/gotosocial/storage";
+        landing-page-user = cfg.landingPageUser;
       };
     };
   };
