@@ -37,10 +37,10 @@ in
 {
   imports = [
     ./modules/alacritty
+    ./modules/browser
     ./modules/dunst
     ./modules/editor
     ./modules/email
-    ./modules/firefox
     ./modules/mpd
     ./modules/media
     ./modules/rofi
