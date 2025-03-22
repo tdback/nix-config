@@ -27,9 +27,7 @@
         "profiles/zfs"
         "scripts/motd"
         "scripts/pushover"
-        "scripts/zquota"
-        "services/llm"
-        "services/sftpgo"
+        "services/dns"
         "services/ssh"
       ])
       (mkSystem "heimdall" "x86_64-linux" inputs.nixpkgs [

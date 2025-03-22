@@ -1,8 +1,4 @@
 {
-  config,
-  ...
-}:
-{
   modules = {
     customs.cgit = {
       enable = true;
@@ -22,36 +18,19 @@
         readme = ":README.md";
       };
     };
-    services.llm = {
+    services.dns = {
       enable = true;
-      port = 11111;
       subnet = "10.44.0.0/16";
-      nvidiaGpu = true;
-      models = [
-        "mistral"
-        "llama3.2"
-      ];
-    };
-    services.sftpgo = {
-      enable = true;
-      dataDir = "/tank/sftpgo";
-      url = "${config.networking.hostName}.brownbread.net";
+      verbosity = 2;
     };
     scripts.motd = {
       enable = true;
       networkInterfaces = [ "enp59s0" ];
       servicesToCheck = [
         "caddy"
-        "ollama"
-        "sftpgo"
+        "unbound"
         "zfs-zed"
       ];
-    };
-    scripts.zquota = {
-      enable = true;
-      quotas = {
-        "tank/sftpgo" = 512;
-      };
     };
   };
 }
