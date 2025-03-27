@@ -23,6 +23,15 @@ in
     enable = true;
     package = pkgs.unstable.librewolf;
 
+    # Refer to https://librewolf.net/docs/settings/.
+    settings = {
+      "webgl.disabled" = false;
+      "privacy.clearOnShutdown.history" = false;
+      # Enable autoscroll safely.
+      "middlemouse.paste" = false;
+      "general.autoScroll" = true;
+    };
+
     # Tweak settings in about:config.
     policies.Preferences = {
       "extensions.screenshots.disabled" = lock-true;
